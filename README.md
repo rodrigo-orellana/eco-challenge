@@ -17,7 +17,7 @@ Se construirán los siguientes microservicios:
 3. Premio: Microservicio encargado de la gestión de premios
 4. Resultados: Microservicio encargado de una vez finalizado el desafío generar los resultados
 
-![Arquitectura](docs/images/arquitectura.png "Arquitectura")
+![Arquitectura](docs/images/backend.png "Arquitectura")
 
 ## Lenguaje
 Los microservicios serán construidos en Python utilizando el microframework Flask, debido a la gran cantidad de material de apoyo existente en la red y la facilidad que ofrece de implementar scripts.
