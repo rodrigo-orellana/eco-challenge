@@ -1,10 +1,10 @@
-![Eco Challenge](docs/image/eco.jpeg "Eco Challenge")
+![Eco Challenge](docs/images/eco.jpeg "Eco Challenge")
 ***
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 Proyecto CC: Proyecto de curso CC asociado a la sustentabilidad ecológica
 ***
 ## Descripción del proyecto 
-![Arquitectura](docs/image/arquitectura.png "Arquitectura")
+![Arquitectura](docs/images/arquitectura.png "Arquitectura")
 Este proyecto tiene por objetivo incentivar el tipo de vida sustentable con el medio ambiente generando conciencia y acciones pro ecología. Este sistema permitirá a los **organizadores** crear *Desafíos* ecológicos en los cuales de asociarán distintas *metas* las cuales entregarán *puntajes* a los **participantes** que se inscriban en el desafío. Tambien se podrán crear *eventos* en los cuales los usuarios que participen podran sumar puntaje. El sistema tendrá **Auspiciadores** los cuales podrán subir al sistema información asociada a *premios* o *descuentos* a los cuales las personas que cumplan el desafío podrán acceder.
 
 ## Alcance
