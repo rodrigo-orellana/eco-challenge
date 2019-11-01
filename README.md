@@ -16,9 +16,7 @@ Se construirán los siguientes microservicios:
 2. Competidores: Entidad que representa a los usuarios que participan en el desafío
 4. Auspiciadores: Entidad de representa a los auspiciadores que entregarán premios en en desafío
 
-<p align="center"> 
-<img src="docs/images/arquitectura2.png "Arquitectura"">
-</p>
+![Arquitectura](docs/images/arquitectura2.jpeg "Arquitectura")
 
 ## Lenguaje
 Los microservicios serán construidos en Python. Se ha elegido este lenguaje debido a lo simplificado, de rapido desarrollo y elegante. Ademas ofrece muchas librerías que puden resultar utilies en el desarrollo del proyecto
