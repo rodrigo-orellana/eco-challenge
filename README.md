@@ -12,12 +12,13 @@ El alcance del proyecto es la construcción del backend del sistema. Para esta v
 ## Arquitectura
 La aplicación será desarrollada siguiendo una arquitectura de [microservicios](https://en.wikipedia.org/wiki/Microservices) debido a que a pesar que una solución monolitica sería mas simple de implementar, en el tiempo al requerir escabilidad crecen funcionalidad se vuelven complejas de mantener y desplegar. Las arquitecturas basadas en microservicios permiten un crecimiento escalable simple y logicamente aislado. Las peticiones de información o de ingreso de esta serán recibidas por un API Gateway REST utilizando JSON. Dicho Gateway enrutará las peticiones al microservicio que corresponda. 
 Se construirán los siguientes microservicios:
-1. Desafíos: Crea/consulta Desafíos con sus respectivas metas
-2. Score: Corresponde a la entidad encargada de administrar los puntajes de los participantes. Este microservicios expondrá una interfaz en la cual se informará nuevos puntajes a asignar a un usuario. Tambien se podrá consultar el puntaje acomulado en el desafío en curso.
-3. Premio: Microservicio encargado de la gestión de premios
-4. Resultados: Microservicio encargado de una vez finalizado el desafío generar los resultados
+1. Desafíos: Entidad que representa el desafío
+2. Competidores: Entidad que representa a los usuarios que participan en el desafío
+4. Auspiciadores: Entidad de representa a los auspiciadores que entregarán premios en en desafío
 
-<center>docs/images/backend.png</center>
+<p align="center"> 
+<img src="docs/images/arquitectura2.png "Arquitectura"">
+</p>
 
 ## Lenguaje
 Los microservicios serán construidos en Python. Se ha elegido este lenguaje debido a lo simplificado, de rapido desarrollo y elegante. Ademas ofrece muchas librerías que puden resultar utilies en el desarrollo del proyecto
@@ -26,7 +27,7 @@ Los microservicios serán construidos en Python. Se ha elegido este lenguaje deb
 Para Las APIs REST se usará Flask. Este microframework es ligero y de facil uso. Ademas cuenta con gran cantidad de material de apoyo existente en la red y ofrece facilidad de implementar scripts.
  
 ## Base de datos
-EL microservicio resultados utilizará una base de datos MySQL para gestionar y consultar mejor los datos de tipo DATE. El resto de los servicios usará una BD MongoDB. Para la utilización de Mysql en python se utilizará el ORM SQLAlchemy. Para MongoDB se utilizará MongoEngine.
+Los microservicios utilizarán una base de datos MySQL para gestionar su información. Para la utilización de Mysql en python se utilizará el ORM SQLAlchemy. 
 
 ## Configuración distribuida
 Como servicio de configuración distribuida se usará Consul que almacenará pares clave-valor y registrará los servicios.
@@ -39,5 +40,6 @@ Para el desarrollo basado en test se aplicarán distintas pruebas en cada micros
  
 ## Servicios 
 Cada microservicio generará log, para esto se usará logging y syslog para centralizar la información.
+
 
 
