@@ -17,7 +17,7 @@ Se construirán los siguientes microservicios:
 4. Auspiciadores: Entidad de representa a los auspiciadores que entregarán premios en en desafío
 
 <p align="center"> 
-<img src="docs/images/arquitectura2.png "Arquitectura"">
+<img src="docs/images/arquitectura2.png">
 </p>
 
 ## Lenguaje
