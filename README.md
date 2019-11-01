@@ -17,13 +17,19 @@ Se construirán los siguientes microservicios:
 3. Premio: Microservicio encargado de la gestión de premios
 4. Resultados: Microservicio encargado de una vez finalizado el desafío generar los resultados
 
-![Arquitectura](docs/images/backend.png "Arquitectura")
+<center>docs/images/backend.png</center>
 
 ## Lenguaje
-Los microservicios serán construidos en Python utilizando el microframework Flask, debido a la gran cantidad de material de apoyo existente en la red y la facilidad que ofrece de implementar scripts.
+Los microservicios serán construidos en Python. Se ha elegido este lenguaje debido a lo simplificado, de rapido desarrollo y elegante. Ademas ofrece muchas librerías que puden resultar utilies en el desarrollo del proyecto
 
+## Framework
+Para Las APIs REST se usará Flask. Este microframework es ligero y de facil uso. Ademas cuenta con gran cantidad de material de apoyo existente en la red y ofrece facilidad de implementar scripts.
+ 
 ## Base de datos
-Para el almacenamiento se utilizará una BD NoSQL como mongoDB independiente para los servicios de cuentas de usuario y los valores de las divisas. Esto debido a que este motor de base de datos a sido de gran aceptación en las soluciones empresariales en los últimos años.
+EL microservicio resultados utilizará una base de datos MySQL para gestionar y consultar mejor los datos de tipo DATE. El resto de los servicios usará una BD MongoDB. Para la utilización de Mysql en python se utilizará el ORM SQLAlchemy. Para MongoDB se utilizará MongoEngine.
+
+## Configuración distribuida
+Como servicio de configuración distribuida se usará Consul que almacenará pares clave-valor y registrará los servicios.
 
 ## Comunicación
 Los microservicios se comunicarán mediante envío de mensajes REST JSON.
