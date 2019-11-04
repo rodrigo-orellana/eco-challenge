@@ -29,12 +29,6 @@ Los microservicios utilizarán una base de datos MySQL para gestionar su informa
 
 ## Configuración distribuida
 Como servicio de configuración distribuida se usará Consul que almacenará pares clave-valor y registrará los servicios.
-
-## Comunicación
-Los microservicios se comunicarán mediante envío de mensajes REST JSON.
- 
-## Test
-Para el desarrollo basado en test se aplicarán distintas pruebas en cada microservicio usando [PyTest](https://docs.pytest.org/en/latest/). 
  
 ## Servicios 
 Cada microservicio generará log, para esto se usará logging y syslog para centralizar la información.
