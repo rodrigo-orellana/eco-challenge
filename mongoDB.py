@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 import logging
 import pymongo
-from model import Desafio
+from desafio import Desafio
 
 import os
 
@@ -11,57 +13,76 @@ class BaseDatos:
         MONGODB_URI = direccion
         client = pymongo.MongoClient(MONGODB_URI, connectTimeoutMS=40000)
         if ('MLAB' in os.environ):
-            db = client["jugadores"]
+            db = client["desafio"]
         else:
-            db = client["MiBaseDatos"]
+            db = client["desafio"]
         if (not prueba):
-            self.desafios = db.jugadores
+            self.desafio = db.desafio
         else:
-            self.desafios = db.prueba
-            self.desafios = db.jugadores
+            # self.desafio = db.desafio
+            self.desafio = db.desafio
         logging.info("MONGO:Conexión completada con éxito.")
 
     def insertDesafio(self, desafio):
         entrada = desafio.__dict__()
-        if(self.desafios.find_one({"nombre": entrada['nombre']})):
+        if(self.desafio.find_one({"nombre": entrada['nombre']})):
+            logging.warning(
+                "MONGO:Desafio %s ya existente, no se ha podido insertar.", entrada['nombre'])
+            return False
+        else:
+            self.desafio.insert_one(entrada)
+            logging.info(
+                "MONGO:Desafio %s insertado en la base de datos.", entrada['nombre'])
+            return True
+
+    def getDesafio(self, nombre):
+        desafio = self.desafio.find_one({"nombre": nombre})
+        del desafio['nombre']
+        logging.info(
+            "MONGO:Desafio %s devuelto por la base de datos.", nombre)
+        return nombre
+
+    def getDesafios(self):
+        salida = {}
+        for j in self.desafio.find():
+            del j['_id']
+            salida[j['nombre']] = j
+        logging.info("MONGO:Todos los Desafios de la base de datos devueltos.")
+        return salida
+
+    def insertDesafio(self, desafio):
+        entrada = desafio.__dict__()
+        if(self.desafio.find_one({"Nombre": entrada['nombre']})):
             logging.warning(
                 "MONGO:Desafio %s ya existente, no se ha podido insertar en la base de datos.", entrada['nombre'])
             return False
         else:
-            self.desafios.insert_one(entrada)
+            self.desafio.insert_one(entrada)
             logging.info(
-                "MONGO:Desafio %s insertado correctamente en la base de datos.", entrada['nombre'])
+                "MONGO:Desafio %s insertado en la base de datos.", entrada['nombre'])
             return True
 
-    def getJugador(self, jugador_nick):
-        jugador = self.jugadores.find_one({"Nick": jugador_nick})
-        del jugador['_id']
+    def removeDesafio(self, nombre):
         logging.info(
-            "MONGO:Jugador %s devuelto por la base de datos.", jugador_nick)
-        return jugador
+            "MONGO:Desafio %s eliminado de la base de datos.", nombre)
+        self.desafio.delete_one({"Nombre": nombre})
 
-    def getJugadores(self):
-        salida = {}
-        for j in self.jugadores.find():
-            del j['_id']
-            salida[j['Nick']] = j
-        logging.info(
-            "MONGO:Todos los jugadores de la base de datos devueltos.")
-        return salida
+    def mostrarDesafios(self):
+        cursor = self.desafio.find()
+        for j in cursor:
+            print(j['nombre'], ' - ', j['fecha_ini'], ' - ', j['fecha_fin'])
 
-    def insertJugador(self, jugador):
-        entrada = jugador.__dict__()
-        if(self.jugadores.find_one({"Nick": entrada['Nick']})):
-            logging.warning(
-                "MONGO:Jugador %s ya existente, no se ha podido insertar en la base de datos.", entrada['Nick'])
-            return False
-        else:
-            self.jugadores.insert_one(entrada)
-            logging.info(
-                "MONGO:Jugador %s insertado correctamente en la base de datos.", entrada['Nick'])
-            return True
+    def removeDesafios(self):
+        for j in self.desafio.find():
+            self.removeDesafio(j['nombre'])
+        logging.info("MONGO:Base de datos de Desafio vaciada por completo.")
 
-    def updateJugador(self, jugador_nick, updates):
+    def getSize(self):
+        return self.desafio.count_documents({})
+
+
+"""
+    def updateDEsafio(self, jugador_nick, updates):
         try:
             jugador = self.getJugador(jugador_nick)
             self.jugadores.update_one({'Nick': jugador['Nick']}, {
@@ -71,21 +92,12 @@ class BaseDatos:
             logging.warning(
                 "MONGO:Oops!! Se pretende actualizar una entrada inexistente.")
 
-    def removeJugador(self, jugador_nick):
-        logging.info(
-            "MONGO:Jugador %s eliminado de la base de datos.", jugador_nick)
-        self.jugadores.delete_one({"Nick": jugador_nick})
-
-    def mostrarJugadores(self):
-        cursor = self.jugadores.find()
-        for j in cursor:
-            print(j['Nick'], ' - ', j['Nombre'], ' - ', j['Apellidos'], ' - ', j['Edad'], ' - ',
-                  j['Videojuegos'], ' - ', j['Competitivo'])
-
-    def removeJugadores(self):
+    def getJugadores(self):
+        salida = {}
         for j in self.jugadores.find():
-            self.removeJugador(j['Nick'])
-        logging.info("MONGO:Base de datos vaciada por completo.")
-
-    def getSize(self):
-        return self.jugadores.count_documents({})
+            del j['_id']
+            salida[j['Nick']] = j
+        logging.info(
+            "MONGO:Todos los jugadores de la base de datos devueltos.")
+        return salida
+"""

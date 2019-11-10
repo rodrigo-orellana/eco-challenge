@@ -1,17 +1,13 @@
-import logging
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Nov 01 2019
-"""
-# Clase que representa Competidor
+import logging
 
 
 class Desafio:
 
     # Crear competidor
     def __init__(self, nombre,
-                 fecha_fin, fecha_ini, pais="España", ciudad="Granada"):
+                 fecha_ini, fecha_fin, pais="España", ciudad="Granada"):
         self.premios = []
         self.competidores = []
         self.nombre = nombre
@@ -20,7 +16,18 @@ class Desafio:
         self.pais = pais
         self.ciudad = ciudad
 # TODO: obtent ranking, calcular ganadores
-# Duda: preio acá o en usuario?
+# Duda: premio acá o en usuario?
+
+    def __dict__(self):
+        d = {
+            "Nombre": self.nombre,
+            "Fecha_ini": self.fecha_ini,
+            "Fecha_fin": self.fecha_fin,
+            "Pais": self.pais,
+            "Ciudad": self.ciudad
+        }
+
+        return d
 
     def aniadir_premio(self, nuevo_premio):
         if nuevo_premio is None:
@@ -34,9 +41,11 @@ class Desafio:
 
     def get(self, ruta):
         logging.info("mensaje de log.")
-        return True  # {ruta: mongo.getJugador(ruta)}
+        # {ruta: mongo.getJugador(ruta)}
+        return True
 
 
+""" 
 class Premio:
 
     # Crear un premio
@@ -46,3 +55,4 @@ class Premio:
         self.fecha_cre = fecha_cre
         self.monto = monto
         self.descripcion = descripcion
+ """

@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Resource, Api, abort, reqparse
-from model import Jugador
+from desafio import Desafio
 from mongoDB import BaseDatos
 import logging
 import datetime
@@ -9,13 +9,10 @@ import os
 app = Flask("hito2")
 api = Api(app)
 
-# Para el sistema de logs
 logging.basicConfig(filename='app.log', filemode='a',
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.DEBUG,  datefmt='%d-%b-%y %H:%M:%S')
 
-# Esto sera con flask sin el microframework de RestFul
-# @app.route("/")
 
 # Si se trata de una prueba de travis debe de hacerlo en local
 
@@ -23,20 +20,21 @@ if('TRAVIS' in os.environ):
     print('TRAVIS')
     mongo = BaseDatos("mongodb://127.0.0.1:27017/MiBaseDatos", True)
 elif('MLAB' in os.environ):
-    print('MLAB')
-    # rodrigoesteban/r0k4FCFHDNGJKnlh
-    mongo = BaseDatos("mongodb://rodrigoesteban:" + os.environ.get('MLABPASS') +
+    print('ATLAS')
+    # ATLAS BD
+    mongo = BaseDatos("mongodb://rodrigoesteban:" + os.environ.get('ATLAS') +
                       "@ds026018.mlab.com:26018/jugadores", True)
 else:
     print('else')
-    #mongo = BaseDatos("mongodb://127.0.0.1:27017/MiBaseDatos", False)
     mongo = BaseDatos(
-        "mongodb+srv://rodrigoesteban:r0k4FCFHDNGJKnlh@cluster0-qazzt.mongodb.net/sample_airbnb?retryWrites=true&w=majority", False)
-
+        # "mongodb+srv://rodrigoesteban:r0k4FCFHDNGJKnlh@cluster0-qazzt.mongodb.net/sample_airbnb?retryWrites=true&w=majority", False)
+        # "mongodb://127.0.0.1:27017/MiBaseDatos", True)
+        "mongodb+srv://rodrigoesteban:r0k4FCFHDNGJKnlh@cluster0-qazzt.mongodb.net/desafio?retryWrites=true&w=majority", False)
+    # "mongodb://127.0.0.1:27017/MiBaseDatos", False)
 
 # nombre,fecha_fin, fecha_ini, pais="España", ciudad="Granada")
 parser = reqparse.RequestParser()
-parser.add_argument('desafio', type=str,
+parser.add_argument('nombre', type=str,
                     help='desafío no puede ser null', required=True)
 parser.add_argument('fecha_ini', type=datetime, required=True)
 parser.add_argument('fecha_fin', type=datetime, required=True)
@@ -45,12 +43,12 @@ parser.add_argument('ciudad', type=str, required=False)
 
 
 def abortar_ruta_inexistente(ruta):
-    if(False):  # Crear vaidación
+    if(False):  # Crear validación
         abort(404, message="Error 404. La ruta {} no existe".format(ruta))
 
 
-"""     for j in mongo.jugadores.find():
-        if(ruta == j['Nick']):
+"""     for j in mongo.desafio.find():
+        if(ruta == j['Nombre']):
             return
     abort(404, message="Error 404. La ruta {} no existe".format(ruta))
  """
@@ -61,47 +59,45 @@ class Principal(Resource):
         return {'status': 'OK'}
 
 
-class Desafios(Resource):
+class DesafioIndividual(Resource):
     def get(self, ruta):
         abortar_ruta_inexistente(ruta)
         logging.info("Obteniendo desafios de la base de datos.")
-        return {ruta: mongo.getJugador(ruta)}
+        return {ruta: mongo.getDesafio(ruta)}
 
     def put(self, ruta):
         args = parser.parse_args()
-        jugador = Jugador(args['Nick'], args['Nombre'], args['Apellidos'], args['Edad'],
-                          args['Videojuegos'], args['Competitivo'])
-        exito = mongo.insertJugador(jugador)
+        desafio = Desafio(args['Nombre'], args['Fecha_ini'], args['Fecha_fin'])
+        exito = mongo.insertDesafio(desafio)
         if(not(exito)):
-            mongo.updateJugador(args['Nick'], jugador.__dict__())
-        return mongo.getJugador(ruta)
+            mongo.updateDesafio(args['Nombre'], desafio.__dict__())
+        return mongo.getDesafio(ruta)
 
     def delete(self, ruta):
-        mongo.removeJugador(ruta)
+        mongo.removeDesafio(ruta)
         return '', 204
 
 
-class Jugadores(Resource):
+class Desafios(Resource):
 
     def get(self):
-        return mongo.getJugadores()
+        return mongo.getDesafios()
 
     def post(self):
         args = parser.parse_args()
-        jugador = Jugador(args['Nick'], args['Nombre'], args['Apellidos'], args['Edad'],
-                          args['Videojuegos'], args['Competitivo'])
-        ruta = args['Nick']
-        mongo.insertJugador(jugador)
-        return mongo.getJugador(ruta), 201
+        desafio = Desafio(args['Nombre'], args['Fecha_ini'], args['Fecha_fin'])
+        ruta = args['Nombre']
+        mongo.insertDesafio(desafio)
+        return mongo.getDesafio(ruta), 201
 
     def delete(self):
-        mongo.removeJugadores()
+        mongo.removeDesafios()
         return '', 204
 
 
 api.add_resource(Principal, '/', '/status')
-api.add_resource(Jugadores, '/jugadores')
-api.add_resource(JugadorIndividual, '/jugadores/<string:ruta>')
+api.add_resource(Desafios, '/desafios')
+api.add_resource(DesafioIndividual, '/desafios/<string:ruta>')
 
 
 if (__name__ == '__main__'):
