@@ -1,8 +1,7 @@
+from desafio import Desafio
 import unittest
 import sys
 sys.path.append("../")
-from model import Desafio
-
 
 
 class TestModel(unittest.TestCase):
