@@ -1,6 +1,6 @@
 ![Eco Challenge](docs/images/eco.jpeg "Eco Challenge")
 ***
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)[![Build Status](https://travis-ci.org/rodrigo-orellana/eco-challenge.svg?branch=master)](https://travis-ci.org/rodrigo-orellana/eco-challenge)  
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)[![Build Status](https://travis-ci.org/rodrigo-orellana/eco-challenge.svg?branch=master)](https://travis-ci.org/rodrigo-orellana/eco-challenge)[![Heroku](https://heroku-badge.herokuapp.com/?app=ecochallenge)  
 Proyecto CC: Proyecto de curso CC asociado a la sustentabilidad ecológica
 ***
 ## Descripción del proyecto 
@@ -19,7 +19,7 @@ Se construirán los siguientes microservicios:
 ![Arquitectura](docs/images/arquitectura2.png "Arquitectura")
 
 ## Herraminetas
-* **Lenguajes:** Los microservicios están construidos en Python3 virtualenv como entorno virtual para el desarollo local de los microservicios. Las APIs REST se construirán usarndo Flask. Este microframework es ligero y de facil uso. Ademas cuenta con gran cantidad de material de apoyo existente en la red.
+* **Lenguajes:** Los microservicios están construidos en Python3 virtualenv como entorno virtual para el desarollo local de los microservicios. Las APIs REST se construirán usarndo Flask. Este microframework es ligero y de facil uso. Ademas cuenta con gran cantidad de material de apoyo existente en la red. Esto se ejecutará en un entorno virtual con pipenv.
 * **Base de datos:** Se hace uso de una base de datos NoSQL [MongoDB](https://www.mongodb.com) para el almacenamiento información. Para la utilización de la BD en python se usa [pymongo](https://api.mongodb.com/python/current/).
 * **Comunicación:** Para la comunicación de los microservicios se usará el broker [RabbitMQ](https://www.rabbitmq.com/).
 * **Test:** Se realizar un desarrollo basado en pruebas con Unittest para Python. Además en cada actualización del repositorio de Github se ejecutan los tests de Unittest.
@@ -31,14 +31,19 @@ Las historias de usuario que representan los requisitos de este proyecto son las
 * [MongMicroservicio CompetidoroDB](https://github.com/rodrigo-orellana/eco-challenge/milestone/6)
 
 ## Integración continua
-El objetivo de implementar el proyecto con integración continua es para realizar integraciones automáticas lo más a menudo posible para así poder detectar fallos cuanto antes. Para esto se siguien los siguientes pasos:  
+El objetivo de implementar el proyecto con integración continua es realizar integraciones automáticas lo más a menudo posible para así poder detectar fallos cuanto antes. En este proyecto se usa [Travis](https://travis-ci.org) que permite instalar todas las dependencias y ejecutar los test (desarrollados con unitTest) de manera automatica en cada actualización realizada sobre nuestro repositorio github. Tambien permite comprobar el funcionamiento correcto de nuestros tests en diversas versiones de Python 
+ Para habilitarlo se siguien los siguientes pasos:  
 1. Subir los fuentes y los test en el repositorio.
 2. Vincular nuestra cuenta de GitHub a Travis en el [sitio oficial](https://travis-ci.org)
 3. Indicar a Travis el repositorio que queremos que Travis ejecute los test.
-4. Crear y subir al repositorio el archivo de configuración [.travis.yml](https://github.com/rodrigo-orellana/eco-challenge/blob/master/.travis.yml)  
+4. Crear y subir al repositorio el archivo de configuración [.travis.yml](https://github.com/rodrigo-orellana/eco-challenge/blob/master/.travis.yml) 
+5. Crear archivo de dependencias [requirements.txt]  (https://github.com/rodrigo-orellana/eco-challenge/blob/master/requirements.txt)  
 Travis ademas permite comprobar la compatibilidad del sistema que se está desarrollando en las versiones que se le especifique del lengueje de programación.  
 Más información ver la [documentación](https://github.com/rodrigo-orellana/eco-challenge/docs/integracion_continua.md)
 
 ## Despliegue
 [Despliegue:](https://ecochallenge.herokuapp.com/)  
-El despliegue del servicio web se realiza en [Heroku](https://www.heroku.com), que nos ofrece una plataforma como un servicio ([PaaS](https://en.wikipedia.org/wiki/Platform_as_a_service)) en la nube. Esto nos permite tener a nuestra disposición un servidor en el que poder desplegar nuestro proyecto en la nube de forma gratuita, vinculando nuestra cuenta de github permite realizar el despligue de nuestro servicio automaticamente una vez finalizas correctamente nuestro set de pruebas de TRAVIS.
+El despliegue del servicio web se realiza en [Heroku](https://www.heroku.com), que nos ofrece una plataforma como un servicio ([PaaS](https://en.wikipedia.org/wiki/Platform_as_a_service)) en la nube. Esto nos permite tener a nuestra disposición un servidor en el que poder desplegar nuestro proyecto en la nube de forma gratuita, vinculando nuestra cuenta de github permite realizar el despligue de nuestro servicio automaticamente una vez finalizas correctamente nuestro set de pruebas de TRAVIS. Heroku utiliza nuestro archivo de rependencias [requirements.txt]  (https://github.com/rodrigo-orellana/eco-challenge/blob/master/requirements.txt) para nuestra aplicación, de la siguiente manera:  
+~~~
+pip install -r requirements.txt
+~~~
