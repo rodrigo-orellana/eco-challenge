@@ -12,15 +12,17 @@ class BaseDatos:
         logging.info("MONGO:Tratando de conectar con la base de datos.")
         MONGODB_URI = direccion
         client = pymongo.MongoClient(MONGODB_URI, connectTimeoutMS=40000)
-        if ('MLAB' in os.environ):
+        db = client["desafio"]
+        """
+        if ('NONAME' in os.environ):
             db = client["desafio"]
         else:
             db = client["desafio"]
+        """
         if (not prueba):
             self.desafio = db.desafio
         else:
-            # self.desafio = db.desafio
-            self.desafio = db.desafio
+            self.desafio = db.prueba
         logging.info("MONGO:Conexión completada con éxito.")
 
     def insertDesafio(self, desafio):
@@ -37,10 +39,10 @@ class BaseDatos:
 
     def getDesafio(self, nombre):
         desafio = self.desafio.find_one({"nombre": nombre})
-        del desafio['nombre']
+        del desafio['_id']  # borra el objeto _id
         logging.info(
             "MONGO:Desafio %s devuelto por la base de datos.", nombre)
-        return nombre
+        return desafio
 
     def getDesafios(self):
         salida = {}
@@ -52,7 +54,7 @@ class BaseDatos:
 
     def insertDesafio(self, desafio):
         entrada = desafio.__dict__()
-        if(self.desafio.find_one({"Nombre": entrada['nombre']})):
+        if(self.desafio.find_one({"nombre": entrada['nombre']})):
             logging.warning(
                 "MONGO:Desafio %s ya existente, no se ha podido insertar en la base de datos.", entrada['nombre'])
             return False
@@ -65,7 +67,7 @@ class BaseDatos:
     def removeDesafio(self, nombre):
         logging.info(
             "MONGO:Desafio %s eliminado de la base de datos.", nombre)
-        self.desafio.delete_one({"Nombre": nombre})
+        self.desafio.delete_one({"nombre": nombre})
 
     def mostrarDesafios(self):
         cursor = self.desafio.find()
@@ -80,17 +82,18 @@ class BaseDatos:
     def getSize(self):
         return self.desafio.count_documents({})
 
+    def updateDesafio(self, nombre, updates):
+        try:
+            desafio = self.getDesafio(nombre)
+            self.desafio.update_one({'nombre': desafio['nombre']}, {
+                '$set': updates}, upsert=False)
+        except:
+            print("except")
+            logging.warning(
+                "MONGO:Error Se pretende actualizar una entrada inexistente.")
+
 
 """
-    def updateDEsafio(self, jugador_nick, updates):
-        try:
-            jugador = self.getJugador(jugador_nick)
-            self.jugadores.update_one({'Nick': jugador['Nick']}, {
-                                      '$set': updates}, upsert=False)
-        except:
-            print("hola")
-            logging.warning(
-                "MONGO:Oops!! Se pretende actualizar una entrada inexistente.")
 
     def getJugadores(self):
         salida = {}

@@ -7,7 +7,7 @@ class Desafio:
 
     # Crear competidor
     def __init__(self, nombre,
-                 fecha_ini, fecha_fin, pais="España", ciudad="Granada"):
+                 fecha_ini, fecha_fin, pais="ESPAÑA", ciudad="GRANADA"):
         self.premios = []
         self.competidores = []
         self.nombre = nombre
@@ -16,15 +16,15 @@ class Desafio:
         self.pais = pais
         self.ciudad = ciudad
 # TODO: obtent ranking, calcular ganadores
-# Duda: premio acá o en usuario?
+# Duda diseño: premio acá o en usuario?
 
     def __dict__(self):
         d = {
-            "Nombre": self.nombre,
-            "Fecha_ini": self.fecha_ini,
-            "Fecha_fin": self.fecha_fin,
-            "Pais": self.pais,
-            "Ciudad": self.ciudad
+            "nombre": self.nombre,
+            "fecha_ini": self.fecha_ini,
+            "fecha_fin": self.fecha_fin,
+            "pais": self.pais,
+            "ciudad": self.ciudad
         }
 
         return d
