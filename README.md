@@ -41,7 +41,7 @@ Más información ver la [documentación](https://github.com/rodrigo-orellana/ec
 
 
 ## Herramienta de construcción
-buildtool: Makefile
+buildtool: Makefile  
 Este proyecto utiliza Makefile como herramienta de construcción. Los objetivos configurados son los siguientes.  
 *Instalación*  El siguente comando permite instalar todos los requisitos necesarios para la aplicación. 
 ~~~
