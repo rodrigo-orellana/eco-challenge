@@ -16,7 +16,7 @@ Se construirán los siguientes microservicios:
 ![Arquitectura](docs/images/arquitectura2.png "Arquitectura")
 
 ## Herraminetas
-* **Lenguajes:** Los microservicios están construidos en Python3 virtualenv como entorno virtual para el desarollo local de los microservicios. Las APIs REST se construirán usarndo Flask. Este microframework es ligero y de facil uso. Ademas cuenta con gran cantidad de material de apoyo existente en la red. Esto se ejecutará en un entorno virtual con pipenv.
+* **Lenguajes:** Los microservicios están construidos en Python3 virtualenv como entorno virtual para el desarollo local de los microservicios. Las APIs REST se construirán usarndo Flask. Este microframework es ligero y de facil uso. Ademas cuenta con gran cantidad de material de apoyo existente en la red. Esto se ejecutará en un entorno virtual con pyvenv.
 * **Base de datos:** Se hace uso de una base de datos NoSQL [MongoDB](https://www.mongodb.com) para el almacenamiento información. Para la utilización de la BD en python se usa [pymongo](https://api.mongodb.com/python/current/).
 * **Comunicación:** Para la comunicación de los microservicios se usará el broker [RabbitMQ](https://www.rabbitmq.com/).
 * **Test:** Se realizar un desarrollo basado en pruebas con Unittest para Python. Además en cada actualización del repositorio de Github se ejecutan los tests de Unittest.
@@ -34,7 +34,7 @@ El objetivo de implementar el proyecto con integración continua es realizar int
 2. Vincular nuestra cuenta de GitHub a Travis en el [sitio oficial](https://travis-ci.org)
 3. Indicar a Travis el repositorio que queremos que Travis ejecute los test.
 4. Crear y subir al repositorio el archivo de configuración [.travis.yml](https://github.com/rodrigo-orellana/eco-challenge/blob/master/.travis.yml) 
-5. Crear archivo de dependencias [requirements.txt]  (https://github.com/rodrigo-orellana/eco-challenge/blob/master/requirements.txt)  
+5. Crear archivo de dependencias [requirements.txt](https://github.com/rodrigo-orellana/eco-challenge/blob/master/requirements.txt)  
 
 Travis ademas permite comprobar la compatibilidad del sistema que se está desarrollando en las versiones que se le especifique del lengueje de programación.  
 Más información ver la [documentación](https://github.com/rodrigo-orellana/eco-challenge/docs/integracion_continua.md)
@@ -45,3 +45,7 @@ El despliegue del servicio web se realiza en [Heroku](https://www.heroku.com), q
 ~~~
 pip install -r requirements.txt
 ~~~
+Ademas el indicamos en el archivo [runtime.txt](https://github.com/rodrigo-orellana/eco-challenge/blob/master/runtime.txt) la versión de python a utilizar (3.7.3). Finalmente le indicamos en el archivo [Procfile](https://github.com/rodrigo-orellana/eco-challenge/blob/master/Procfile) el comando que será ejecutado al iniciar la aplicación, en este caso indicamos nuestro web server
+ ~~~
+ web: gunicorn principal:app
+ ~~~
