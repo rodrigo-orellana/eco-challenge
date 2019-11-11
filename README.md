@@ -39,6 +39,25 @@ El objetivo de implementar el proyecto con integración continua es realizar int
 Travis ademas permite comprobar la compatibilidad del sistema que se está desarrollando en las versiones que se le especifique del lengueje de programación.  
 Más información ver la [documentación](https://github.com/rodrigo-orellana/eco-challenge/docs/integracion_continua.md)
 
+
+## Herramienta de construcción
+buildtool: Makefile
+Este proyecto utiliza Makefile como herramienta de construcción. Los objetivos configurados son los siguientes.  
+*Instalación*  El siguente comando permite instalar todos los requisitos necesarios para la aplicación. 
+~~~
+make install
+~~~
+
+Alternativamente a esto puede ejecutar:
+~~~
+pip install -r requirements.txt.
+~~~
+
+*Test* Tambien permite ejecutar los tests del proyecto con el siguiente comando.
+~~~
+make test
+~~~
+
 ## Despliegue
 [Despliegue:](https://ecochallenge.herokuapp.com/)  
 El despliegue del servicio web se realiza en [Heroku](https://www.heroku.com), que nos ofrece una plataforma como un servicio ([PaaS](https://en.wikipedia.org/wiki/Platform_as_a_service)) en la nube. Esto nos permite tener a nuestra disposición un servidor en el que poder desplegar nuestro proyecto en la nube de forma gratuita, vinculando nuestra cuenta de github permite realizar el despligue de nuestro servicio automaticamente una vez finalizas correctamente nuestro set de pruebas de TRAVIS. Heroku utiliza nuestro archivo de rependencias [requirements.txt](https://github.com/rodrigo-orellana/eco-challenge/blob/master/requirements.txt) para nuestra aplicación, de la siguiente manera:  
