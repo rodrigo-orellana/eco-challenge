@@ -1,13 +1,10 @@
 ![Eco Challenge](docs/images/eco.jpeg "Eco Challenge")
 ***
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)[![Build Status](https://travis-ci.org/rodrigo-orellana/eco-challenge.svg?branch=master)](https://travis-ci.org/rodrigo-orellana/eco-challenge)[![Heroku](https://heroku-badge.herokuapp.com/?app=ecochallenge)]  
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)[![Build Status](https://travis-ci.org/rodrigo-orellana/eco-challenge.svg?branch=master)](https://travis-ci.org/rodrigo-orellana/eco-challenge)
 Proyecto CC: Proyecto de curso CC asociado a la sustentabilidad ecológica
 ***
 ## Descripción del proyecto 
 Este proyecto tiene por objetivo incentivar el tipo de vida sustentable con el medio ambiente generando conciencia y acciones pro ecología. Este sistema permitirá a los **organizadores** crear *Desafíos* ecológicos en los cuales de asociarán distintas *metas* las cuales entregarán *puntajes* a los **participantes** que se inscriban en el desafío. Tambien se podrán crear *eventos* en los cuales los usuarios que participen podran sumar puntaje. El sistema tendrá **Auspiciadores** los cuales podrán subir al sistema información asociada a *premios* o *descuentos* a los cuales las personas que cumplan el desafío podrán acceder.
-
-## Alcance
-El alcance del proyecto es la construcción del backend del sistema. Para esta versión solo podrá estar activo un desafío en un período de tiempo.
 
 ## Arquitectura
 La aplicación será desarrollada siguiendo una arquitectura de [microservicios](https://en.wikipedia.org/wiki/Microservices) debido a que a pesar que una solución monolitica sería mas simple de implementar, en el tiempo al requerir escabilidad crecen funcionalidad se vuelven complejas de mantener y desplegar. Las arquitecturas basadas en microservicios permiten un crecimiento escalable simple y logicamente aislado. Las peticiones de información o de ingreso de esta serán recibidas por un API Gateway. Dicho Gateway enrutará las peticiones al microservicio que corresponda. 
@@ -38,6 +35,7 @@ El objetivo de implementar el proyecto con integración continua es realizar int
 3. Indicar a Travis el repositorio que queremos que Travis ejecute los test.
 4. Crear y subir al repositorio el archivo de configuración [.travis.yml](https://github.com/rodrigo-orellana/eco-challenge/blob/master/.travis.yml) 
 5. Crear archivo de dependencias [requirements.txt]  (https://github.com/rodrigo-orellana/eco-challenge/blob/master/requirements.txt)  
+
 Travis ademas permite comprobar la compatibilidad del sistema que se está desarrollando en las versiones que se le especifique del lengueje de programación.  
 Más información ver la [documentación](https://github.com/rodrigo-orellana/eco-challenge/docs/integracion_continua.md)
 
