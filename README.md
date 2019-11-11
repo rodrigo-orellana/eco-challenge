@@ -1,6 +1,6 @@
 ![Eco Challenge](docs/images/eco.jpeg "Eco Challenge")
 ***
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)[![Build Status](https://travis-ci.org/rodrigo-orellana/eco-challenge.svg?branch=master)](https://travis-ci.org/rodrigo-orellana/eco-challenge)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)[![Build Status](https://travis-ci.org/rodrigo-orellana/eco-challenge.svg?branch=master)](https://travis-ci.org/rodrigo-orellana/eco-challenge)  
 Proyecto CC: Proyecto de curso CC asociado a la sustentabilidad ecológica
 ***
 ## Descripción del proyecto 
@@ -27,14 +27,18 @@ Se construirán los siguientes microservicios:
 
 ## Historias de usuario
 Las historias de usuario que representan los requisitos de este proyecto son las siguientes agrupados por microservicio:
-[Microservicio Desafío](https://github.com/rodrigo-orellana/eco-challenge/milestone/7)
-[MongMicroservicio CompetidoroDB](https://github.com/rodrigo-orellana/eco-challenge/milestone/6)
+* [Microservicio Desafío](https://github.com/rodrigo-orellana/eco-challenge/milestone/7)
+* [MongMicroservicio CompetidoroDB](https://github.com/rodrigo-orellana/eco-challenge/milestone/6)
 
 ## Integración continua
+El objetivo de implementar el proyecto con integración continua es para realizar integraciones automáticas lo más a menudo posible para así poder detectar fallos cuanto antes. Para esto se siguien los siguientes pasos:  
+1. Subir los fuentes y los test en el repositorio.
+2. Vincular nuestra cuenta de GitHub a Travis en el [sitio oficial](https://travis-ci.org)
+3. Indicar a Travis el repositorio que queremos que Travis ejecute los test.
+4. Crear y subir al repositorio el archivo de configuración [.travis.yml](https://github.com/rodrigo-orellana/eco-challenge/blob/master/.travis.yml)  
+Travis ademas permite comprobar la compatibilidad del sistema que se está desarrollando en las versiones que se le especifique del lengueje de programación.  
+Más información ver la [documentación](https://github.com/rodrigo-orellana/eco-challenge/docs/integracion_continua.md)
 
 ## Despliegue
-
-Despliegue: https://pruebacc.herokuapp.com/
-
-El despliegue del servicio web se realiza en Heroku, que nos ofrece una plataforma como un servicio (PaaS) en la nube. Esto nos permite tener a nuestra disposición un servidor en el que poder desplegar nuestro proyecto en la nube de forma gratuita.
-
+[Despliegue:](https://ecochallenge.herokuapp.com/)  
+El despliegue del servicio web se realiza en [Heroku](https://www.heroku.com), que nos ofrece una plataforma como un servicio ([PaaS](https://en.wikipedia.org/wiki/Platform_as_a_service)) en la nube. Esto nos permite tener a nuestra disposición un servidor en el que poder desplegar nuestro proyecto en la nube de forma gratuita, vinculando nuestra cuenta de github permite realizar el despligue de nuestro servicio automaticamente una vez finalizas correctamente nuestro set de pruebas de TRAVIS.
