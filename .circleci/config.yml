@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - run:
+          name: virtualiza python3
+          command: python3 -m venv venv
+      - run:
+          name: Dependencias del proyecto
+          command: |
+            . venv/bin/activate 
+            make install
+      - run:
+          name: Test unittest
+          command: |
+            . venv/bin/activate 
+            make test
