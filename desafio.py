@@ -44,6 +44,30 @@ class Desafio:
         # {ruta: mongo.getJugador(ruta)}
         return True
 
+    def get_fecha_fin(self):
+        return self.fecha_fin
+
+    def get_fecha_ini(self):
+        return self.fecha_ini
+
+    def get_pais(self):
+        return self.pais
+
+    def get_ciudad(self):
+        return self.ciudad
+
+    def update_fecha_fin(self, fecha_fin_new):
+        self.fecha_fin = fecha_fin_new
+
+    def update_fecha_ini(self, fecha_ini_new):
+        self.fecha_ini = fecha_ini_new
+
+    def update_pais(self, pais_new):
+        self.pais = pais_new
+
+    def update_ciudad(self, ciudad_new):
+        self.ciudad = ciudad_new
+
 
 """ 
 class Premio:

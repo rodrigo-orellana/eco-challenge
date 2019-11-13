@@ -22,8 +22,32 @@ class Competidor:
         self.scores.append(nuevo_score)
         return 'Dato valido'
 
+    def get_edad(self):
+        return self.edad
 
+    def get_fecha_sexo(self):
+        return self.sexo
+
+    def get_pais(self):
+        return self.pais
+
+    def get_ciudad(self):
+        return self.ciudad
+
+    def update_edad(self, edad_new):
+        self.edad = edad_new
+
+    def update_sexo(self, sexo_new):
+        self.sexo = sexo_new
+
+    def update_pais(self, pais_new):
+        self.pais = pais_new
+
+    def update_ciudad(self, ciudad_new):
+        self.ciudad = ciudad_new
 # Clase que representa la estructura de los datos score
+
+
 class Score:
 
     # Crear un score
