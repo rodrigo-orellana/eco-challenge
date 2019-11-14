@@ -39,6 +39,7 @@ Más información ver la [documentación](https://github.com/rodrigo-orellana/ec
 1. Subir los fuentes y los test en el repositorio.
 2. Vincular nuestra cuenta de GitHub a CircleCI en el [sitio oficial](https://circleci.com/)
 3. Crear y subir al repositorio el archivo de configuración [.circleci/config.yml](https://github.com/rodrigo-orellana/eco-challenge/blob/master/.circleci/config.yml) 
+Más información ver la [documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/integracion_continua.md)
 
 ## Herramienta de construcción
 buildtool: Makefile  
