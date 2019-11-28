@@ -6,7 +6,7 @@ import logging
 import datetime
 import os
 
-app = Flask("hito2")
+app = Flask("ecochallenge")
 api = Api(app)
 
 logging.basicConfig(filename='app.log', filemode='a',
@@ -103,6 +103,5 @@ api.add_resource(DesafioIndividual, '/desafios/<string:ruta>')
 if (__name__ == '__main__'):
     # Esto es para que pueda abrirse desde cualquier puerto y
     #  direccion(de esta forma en heroku no nos da error).
-    port = int(os.environ.get("PORT", 8000))
+    port = int(os.environ.get("PORT", 8989))
     app.run(host="0.0.0.0", port=port, debug=False)
-    # app.run(debug=True)
