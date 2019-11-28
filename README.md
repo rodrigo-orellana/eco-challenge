@@ -103,16 +103,9 @@ Y desplegamos la imagen en hub docker, con *docker login* y luego:
 docker tag f4a8f83b9aa2 rodrigoorellana/ecochallenge:3.0
 docker push rodrigoorellana/ecochallenge
 ~~~
-Acceso APP WEB
-~~~
-Contenedor: https://hub.docker.com/r/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-Contenedor en Heroku: https:/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.herokuapp.com/news
+Contenedor: https://hub.docker.com/repository/docker/rodrigoorellana/ecochallenge
 
-
-http://localhost:8989                        -> indica status de la aplicación
-https://ecochallenge.herokuapp.com/desafios  -> lista desafios de la BD
-~~~
 
 ## Despliegue
 [Despliegue:](https://ecochallenge.herokuapp.com/)  
@@ -120,14 +113,18 @@ El despliegue del servicio web se realiza en [Heroku](https://www.heroku.com), q
 ~~~
 pip install -r requirements.txt
 ~~~
-Ademas el indicamos en el archivo [runtime.txt](https://github.com/rodrigo-orellana/eco-challenge/blob/master/runtime.txt) la versión de python a utilizar (3.7.3). Finalmente le indicamos en el archivo [Procfile](https://github.com/rodrigo-orellana/eco-challenge/blob/master/Procfile) el comando que será ejecutado al iniciar la aplicación, en este caso indicamos nuestro web server
- ~~~
- web: gunicorn principal:app
- ~~~
+Ademas el indicamos en el archivo [runtime.txt](https://github.com/rodrigo-orellana/eco-challenge/blob/master/runtime.txt) la versión de python a utilizar (3.7.3). Finalmente le indicamos en el archivo [Procfile](https://github.com/rodrigo-orellana/eco-challenge/blob/master/Procfile)  
+
+https://ecochallenge.herokuapp.com/          -> indica status de la aplicación
+https://ecochallenge.herokuapp.com/desafios  -> lista desafios de la BD  
 
 ## Arquitectura en capas de microservicios
 La arquitectura de este microservicio está compuesta por tres capas:
 
-**servicio:** interfaz de acceso al microservicio: principal.py
-**negocio:** ejecuta subrutinas y acciones de los usuarios: desafio.py
-**BD:** ejecuta comunicación con BD: mongoDB.py
+**servicio:** Interfaz de acceso al microservicio: [principal.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/principal.py)
+**negocio:** Ejecuta subrutinas y acciones de los usuarios: [desafio.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/desafio.py) [competidor.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/competidor.py)
+**BD:** Ejecuta comunicación con BD: [mongoDB.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/mongoDB.py)
+
+
+
+
