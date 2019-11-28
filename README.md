@@ -88,7 +88,7 @@ Luego la ejecutamos
 docker run -it -d -p 8989:8989 ecochallenge
 ~~~
 Nuesta aplicación corre en el puerto 8989, se mapea desde el 8989.
-La imagen creada
+La imagen creada:
 ~~~
 *docker images*
 REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
@@ -115,16 +115,12 @@ pip install -r requirements.txt
 ~~~
 Ademas el indicamos en el archivo [runtime.txt](https://github.com/rodrigo-orellana/eco-challenge/blob/master/runtime.txt) la versión de python a utilizar (3.7.3). Finalmente le indicamos en el archivo [Procfile](https://github.com/rodrigo-orellana/eco-challenge/blob/master/Procfile)  
 
-https://ecochallenge.herokuapp.com/          -> indica status de la aplicación
+https://ecochallenge.herokuapp.com/          -> indica status de la aplicación  
 https://ecochallenge.herokuapp.com/desafios  -> lista desafios de la BD  
 
 ## Arquitectura en capas de microservicios
-La arquitectura de este microservicio está compuesta por tres capas:
+La arquitectura de este microservicio está compuesta por tres capas:  
 
-**servicio:** Interfaz de acceso al microservicio: [principal.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/principal.py)
-**negocio:** Ejecuta subrutinas y acciones de los usuarios: [desafio.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/desafio.py) [competidor.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/competidor.py)
-**BD:** Ejecuta comunicación con BD: [mongoDB.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/mongoDB.py)
-
-
-
-
+**servicio:** Interfaz de acceso al microservicio: [principal.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/principal.py)  
+**negocio:** Ejecuta subrutinas y acciones de los usuarios: [desafio.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/desafio.py) [competidor.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/competidor.py)  
+**BD:** Ejecuta comunicación con BD: [mongoDB.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/mongoDB.py)  
