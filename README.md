@@ -104,20 +104,36 @@ docker tag f4a8f83b9aa2 rodrigoorellana/ecochallenge:3.0
 docker push rodrigoorellana/ecochallenge
 ~~~
 
-Contenedor: https://hub.docker.com/repository/docker/rodrigoorellana/ecochallenge
+Contenedor: https://hub.docker.com/repository/docker/rodrigoorellana/ecochallenge  
+  
+Y desplegamos la imagen en github con el id de la imagen creando el tag y subiendo con push  
+~~~
+docker login docker.pkg.github.com -u $USER -p $TOKEN  
+docker tag f4a8f83b9aa2 docker.pkg.github.com/rodrigo-orellana/eco-challenge/ecochallenge:3.0	
+docker push docker.pkg.github.com/rodrigo-orellana/eco-challenge/ecochallenge:3.0  
+~~~
+Contenedor: https://github.com/rodrigo-orellana/eco-challenge/packages/66342  
 
 
 ## Despliegue
 [Despliegue:](https://ecochallenge.herokuapp.com/)  
-El despliegue del servicio web se realiza en [Heroku](https://www.heroku.com), que nos ofrece una plataforma como un servicio ([PaaS](https://en.wikipedia.org/wiki/Platform_as_a_service)) en la nube. Esto nos permite tener a nuestra disposición un servidor en el que poder desplegar nuestro proyecto en la nube de forma gratuita, vinculando nuestra cuenta de github permite realizar el despligue de nuestro servicio automaticamente una vez finalizas correctamente nuestro set de pruebas de TRAVIS. Heroku utiliza nuestro archivo de rependencias [requirements.txt](https://github.com/rodrigo-orellana/eco-challenge/blob/master/requirements.txt) para nuestra aplicación, de la siguiente manera:  
+El despliegue del servicio web se realiza en [Heroku](https://www.heroku.com), que nos ofrece una plataforma como un servicio ([PaaS](https://en.wikipedia.org/wiki/Platform_as_a_service)) en la nube. Esto nos permite tener a nuestra disposición un servidor en el que poder desplegar nuestro proyecto en la nube de forma gratuita, vinculando nuestra cuenta de github permite realizar el despligue de nuestro servicio automaticamente una vez finalizas correctamente nuestro set de pruebas de TRAVIS. Para ello creamos el archivo de creación de nuestro docker de la siguiente forma:  
 ~~~
-pip install -r requirements.txt
+build:
+  docker:
+    # Dockerfile para crear nuevo docker 
+    web: Dockerfile
+run:
+   # Comando de ejecucción del serivicio con WSGI gunicorn
+   web: gunicorn principal:app
 ~~~
-Ademas el indicamos en el archivo [runtime.txt](https://github.com/rodrigo-orellana/eco-challenge/blob/master/runtime.txt) la versión de python a utilizar (3.7.3). Finalmente le indicamos en el archivo [Procfile](https://github.com/rodrigo-orellana/eco-challenge/blob/master/Procfile)  
-
+Ademas seguimos los pasos indicados en la documentación [oficial](https://devcenter.heroku.com/articles/build-docker-images-heroku-yml) 
+La prueba del microservicio está disponible desde aquí:
+  
 https://ecochallenge.herokuapp.com/          -> indica status de la aplicación  
 https://ecochallenge.herokuapp.com/desafios  -> lista desafios de la BD  
-
+  
+¿Porque opté por heroku? Vi muchos avisos de trabajo en el cual se requería conocer de este servicio PaaS.  
 ## Arquitectura en capas de microservicios
 La arquitectura de este microservicio está compuesta por tres capas:  
 

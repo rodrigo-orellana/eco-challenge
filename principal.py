@@ -19,18 +19,12 @@ logging.basicConfig(filename='app.log', filemode='a',
 if('TRAVIS' in os.environ):
     print('TRAVIS')
     mongo = BaseDatos("mongodb://127.0.0.1:27017/MiBaseDatos", True)
-elif('MLAB' in os.environ):
-    print('ATLAS')
-    # ATLAS BD
-    mongo = BaseDatos("mongodb://rodrigoesteban:" + os.environ.get('ATLAS') +
-                      "@ds026018.mlab.com:26018/jugadores", True)
 else:
     print('else')
+    user = os.environ.get("USER_MBD")
+    passw = os.environ.get("PASS_MBD")
     mongo = BaseDatos(
-        # "mongodb+srv://rodrigoesteban:r0k4FCFHDNGJKnlh@cluster0-qazzt.mongodb.net/sample_airbnb?retryWrites=true&w=majority", False)
-        # "mongodb://127.0.0.1:27017/MiBaseDatos", True)
         "mongodb+srv://rodrigoesteban:r0k4FCFHDNGJKnlh@cluster0-qazzt.mongodb.net/desafio?retryWrites=true&w=majority", False)
-    # "mongodb://127.0.0.1:27017/MiBaseDatos", False)
 
 # nombre,fecha_fin, fecha_ini, pais="España", ciudad="Granada")
 parser = reqparse.RequestParser()
@@ -47,16 +41,9 @@ def abortar_ruta_inexistente(ruta):
         abort(404, message="Error 404. La ruta {} no existe".format(ruta))
 
 
-"""     for j in mongo.desafio.find():
-        if(ruta == j['Nombre']):
-            return
-    abort(404, message="Error 404. La ruta {} no existe".format(ruta))
- """
-
-
 class Principal(Resource):
     def get(self):
-        return {'status': 'OK'}
+        return {'status': 'OK' + user}
 
 
 class DesafioIndividual(Resource):

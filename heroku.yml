@@ -1,0 +1,7 @@
+build:
+  docker:
+    # Dockerfile para crear nuevo docker 
+    web: Dockerfile
+run:
+   # Comando de ejecucción del serivicio con WSGI gunicorn
+   web: gunicorn principal:app
