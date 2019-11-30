@@ -38,10 +38,9 @@ Para la elección de la imagen de docker del proyecto creado en python se evalar
 * **Actualizaciones de seguridad:** Conviene que la imagen esté bien mantenida, de modo que obtenga actualizaciones de seguridad para el sistema operativo base de manera oportuna.   
 
 Las opciones analizadas
-* **Alpine:** Esta imagen posee muchas recomandaciones en la comunidad de desarrolladores, debido a que tiene un pequeño peso (cercano a los 5 MB), aun siendo full distribución Linux.  
-* **Ubuntu 18.04 (tag:18.04):** Esta versión 2018 de ubuntu tendrá actualizaciones de seguridad hasta el 2023. peso de 64 MB.  
-* **Python:** El Docker oficial de Python, con buena aceptación en la comunidad pero con un elevado peso cercano a los 193MB (tag slim-buster). ofrece la ultima versión de Python.
-* **jfloff/alpine-python** Imágen basada en Alpine, incluye python3-dev. el tag "latest-slim" tiene un peso de 83 MB incluyendo python.
+* **fedora-python:** Esta imagen basada en fedora que incluye python, tiene un peso cercano a lo 400 MB
+* **Python:** El Docker oficial de Python, con buena aceptación en la comunidad pero con un elevado peso cercano a los 193MB (tag slim-buster). ofrece la ultima versión de Python. Se probó tambien con tag "3", con un peso final de más  de 900 MB.
+* **jfloff/alpine-python** Imágen basada en Alpine, incluye python3-dev. el tag "latest-slim" tiene un peso de 83 MB incluyendo python. Requiere incorporar manualmente la libreria gcc y musl-dev necesario para la instalación. *Esto no significa que la imagen sea mala, lo que ocurre es que está optimizada a tener lo preciso para su ejecución, por lo que para la instalación se puede agregar lo que sea requerido*
 
 De las opciones analizadas se opta por [jfloff/alpine-python](https://hub.docker.com/r/jfloff/alpine-python) el cual ademas de ligero, incluye python3.  
 
@@ -65,11 +64,17 @@ COPY ./desafio.py  desafio.py
 COPY ./competidor.py  competidor.py
 COPY ./requirements.txt requirements.txt
 
-# resuelve error de creación de imagen. instala gcc
+# Instalan los packetes gcc y musl-dev necesario para nuestra instalación
+# Se agregar a los paquetes de manera virtual
+# no a los globales pues solo es usada en la creación.
+# Luego los podemos quitar, así nuestra imagen solo posee lo necesario
+# Y la mantenemos de bajo tamaño
 RUN apk add --no-cache --virtual .build-deps gcc musl-dev
 # Instala las dependecias del servicio 
 RUN pip install -r requirements.txt
 
+# Quitamos los paquetes gcc y musl-dev 
+RUN apk del .build-deps
 # abrir el puerto 8989
 EXPOSE 8989
 # Comandos para ejecutar el servicio
@@ -78,7 +83,8 @@ ENTRYPOINT ["python3"]
 # ejecuta la app
 CMD ["principal.py"]
 ~~~
-creamos nuesta imagen:
+Se utiliza *RUN apk add --no-cache --virtual .build-deps gcc musl-dev* para instalar packetes necesarios solo para la creación, no se requiere agregar en los packetes globales.  
+Creamos nuesta imagen:
 ~~~
 docker build -t ecochallenge:3.0 .
 ~~~

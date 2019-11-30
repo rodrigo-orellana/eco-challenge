@@ -14,11 +14,17 @@ COPY ./desafio.py  desafio.py
 COPY ./competidor.py  competidor.py
 COPY ./requirements.txt requirements.txt
 
-# resuelve error de creación de imagen. instala gcc
+# Instalan los packetes gcc y musl-dev necesario para nuestra instalación
+# Se agregar a los paquetes de manera virtual
+# no a los globales pues solo es usada en la creación.
+# Luego los podemos quitar, así nuestra imagen solo posee lo necesario
+# Y la mantenemos de bajo tamaño
 RUN apk add --no-cache --virtual .build-deps gcc musl-dev
 # Instala las dependecias del servicio 
 RUN pip install -r requirements.txt
 
+# Quitamos los paquetes gcc y musl-dev 
+RUN apk del .build-deps
 # abrir el puerto 8989
 EXPOSE 8989
 # Comandos para ejecutar el servicio
