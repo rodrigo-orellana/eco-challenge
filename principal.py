@@ -1,3 +1,4 @@
+# encoding=utf8
 from flask import Flask
 from flask_restful import Resource, Api, abort, reqparse
 from desafio import Desafio
@@ -16,15 +17,11 @@ logging.basicConfig(filename='app.log', filemode='a',
 
 # Si se trata de una prueba de travis debe de hacerlo en local
 
-if('TRAVIS' in os.environ):
-    print('TRAVIS')
-    mongo = BaseDatos("mongodb://127.0.0.1:27017/MiBaseDatos", True)
-else:
-    print('else')
-    user = os.environ.get("USER_MBD")
-    passw = os.environ.get("PASS_MBD")
-    mongo = BaseDatos(
-        "mongodb+srv://rodrigoesteban:r0k4FCFHDNGJKnlh@cluster0-qazzt.mongodb.net/desafio?retryWrites=true&w=majority", False)
+print('else')
+user = os.environ.get("USER_MBD")
+passw = os.environ.get("PASS_MBD")
+mongo = BaseDatos(
+    "mongodb+srv://rodrigoesteban:r0k4FCFHDNGJKnlh@cluster0-qazzt.mongodb.net/desafio?retryWrites=true&w=majority", False)
 
 # nombre,fecha_fin, fecha_ini, pais="España", ciudad="Granada")
 parser = reqparse.RequestParser()
@@ -89,6 +86,5 @@ api.add_resource(DesafioIndividual, '/desafios/<string:ruta>')
 
 if (__name__ == '__main__'):
     # Esto es para que pueda abrirse desde cualquier puerto y
-    #  direccion(de esta forma en heroku no nos da error).
     port = int(os.environ.get("PORT", 8989))
     app.run(host="0.0.0.0", port=port, debug=False)
