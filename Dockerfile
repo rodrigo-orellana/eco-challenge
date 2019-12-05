@@ -1,6 +1,5 @@
 # Esta es la imagen base del proyecto
-#ya tiene instalado python3
-FROM jfloff/alpine-python:latest-slim
+FROM ubuntu:latest
 # Especifica el autor.
 MAINTAINER Rodrigo Orellana
 
@@ -14,17 +13,17 @@ COPY ./desafio.py  desafio.py
 COPY ./competidor.py  competidor.py
 COPY ./requirements.txt requirements.txt
 
-# Instalan los packetes gcc y musl-dev necesario para nuestra instalación
-# Se agregar a los paquetes de manera virtual
-# no a los globales pues solo es usada en la creación.
-# Luego los podemos quitar, así nuestra imagen solo posee lo necesario
-# Y la mantenemos de bajo tamaño
-RUN apk add --no-cache --virtual .build-deps gcc musl-dev
-# Instala las dependecias del servicio 
+# Actualizamos la imagen, instalamos pip y lo actualizamos
+# uso el parametro -y porque la construcción no es interactiva.
+RUN apt-get update \
+  && apt-get install -y python3-pip \
+  && cd /usr/local/bin \
+  && ln -s /usr/bin/python3 python \
+  && pip3 install --upgrade pip
+
+#Instala dependencias del proyecto
 RUN pip install -r requirements.txt
 
-# Quitamos los paquetes gcc y musl-dev 
-RUN apk del .build-deps
 # abrir el puerto 8989
 EXPOSE 8989
 # Comandos para ejecutar el servicio

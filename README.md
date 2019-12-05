@@ -33,24 +33,20 @@ Para la automatización de los test se utiliza el framework de Python llamdo [Un
 ## Virtualización sobre Docker
 El concepto de [Docker](https://www.docker.com/) nace de la intención de poder administrar mejor los recursos de hardware (capacidad de computo), al virtualizar se crean pequeños ordenadores virtuales en los que se  distrubuyen los recursos, ademas de aislar las aplicaciones de otras que estén en el mismo servidor en distintas máquinas virtuales. En el caso de Docker, permite crear ambientes vittuales simplificados de pequeño tamaño, los que luego al desplegarse asegura que las pruebas realizadas en local se comportarán identicamente en el servidor de destino, al poseer una configuración que es exactamente la misma localmente y en la nube.  
 
-Para la elección de la imagen de docker del proyecto creado en python se evalaron las siguientes caracteristicas:  
-* **Imagen lijera:** La ventaja de una imágen pequeña apunta la rápides de extraer de la red y más rápidas de cargar en la memoria al iniciar el contenedor  
-* **Actualizaciones de seguridad:** Conviene que la imagen esté bien mantenida, de modo que obtenga actualizaciones de seguridad para el sistema operativo base de manera oportuna.   
-
-Las opciones analizadas
+Las opciones analizadas  
 * **fedora-python:** Esta imagen basada en fedora que incluye python, tiene un peso cercano a lo 400 MB
-* **Python:** El Docker oficial de Python, con buena aceptación en la comunidad pero con un elevado peso cercano a los 193MB (tag slim-buster). ofrece la ultima versión de Python. Se probó tambien con tag "3", con un peso final de más  de 900 MB.
-* **jfloff/alpine-python** Imágen basada en Alpine, incluye python3-dev. el tag "latest-slim" tiene un peso de 83 MB incluyendo python. Requiere incorporar manualmente la libreria gcc y musl-dev necesario para la instalación. *Esto no significa que la imagen sea mala, lo que ocurre es que está optimizada a tener lo preciso para su ejecución, por lo que para la instalación se puede agregar lo que sea requerido*
+* **Python:** El Docker oficial de Python, con buena aceptación en la comunidad (tag slim-buster). ofrece la ultima versión de Python. Se probó tambien con tag "3", con un peso final de más  de 900 MB.
+* **jfloff/alpine-python** Imágen basada en Alpine, incluye python3-dev. el tag "latest-slim" tiene un peso cercano a 200 MB incluyendo python. Requiere incorporar manualmente la libreria gcc y musl-dev necesario para la instalación. *Esto no significa que la imagen sea mala, lo que ocurre es que está optimizada a tener lo preciso para su ejecución, por lo que para la instalación se puede agregar lo que sea requerido*
+* **ubuntu:latest** Imágen basada en ubuntu, tiene un peso cercano a los 500 MB.  
 
-De las opciones analizadas se opta por [jfloff/alpine-python](https://hub.docker.com/r/jfloff/alpine-python) el cual ademas de ligero, incluye python3.  
+De las opciones analizadas se opta por **ubuntu:latest** debido a que el ambiente de desarrollo es ubuntu, esto nos asegura mayor compatibilidad.  
 
 **Manos a la obra:** seguimos los siguientes pasos para la creación de nuestra imagen Docker de proyecto:  
-Instalar Docker cliente -> Descargar Imagen -> instalar Python3 -> instalas pip3 -> Copiar fuentes proyecto -> instalar modulos python -> exponer los puertos -> Hacer ejecutable el Docker -> Crear Imagen Docker del proyecto
-El siguiente es el Dockerfile del proyecto *debidamente comentado*:
+Instalar Docker cliente -> Descargar Imagen -> Copiar fuentes proyecto ->instalar pip3 -> exponer los puertos -> Hacer ejecutable el Docker -> Crear Imagen Docker del proyecto  
+El siguiente es el Dockerfile del proyecto *debidamente comentado*:  
 ~~~
 # Esta es la imagen base del proyecto
-#ya tiene instalado python3
-FROM jfloff/alpine-python:latest-slim
+FROM ubuntu:latest
 # Especifica el autor.
 MAINTAINER Rodrigo Orellana
 
@@ -64,17 +60,17 @@ COPY ./desafio.py  desafio.py
 COPY ./competidor.py  competidor.py
 COPY ./requirements.txt requirements.txt
 
-# Instalan los packetes gcc y musl-dev necesario para nuestra instalación
-# Se agregar a los paquetes de manera virtual
-# no a los globales pues solo es usada en la creación.
-# Luego los podemos quitar, así nuestra imagen solo posee lo necesario
-# Y la mantenemos de bajo tamaño
-RUN apk add --no-cache --virtual .build-deps gcc musl-dev
-# Instala las dependecias del servicio 
+# Actualizamos la imagen, instalamos pip y lo actualizamos
+# uso el parametro -y porque la construcción no es interactiva.
+RUN apt-get update \
+  && apt-get install -y python3-pip \
+  && cd /usr/local/bin \
+  && ln -s /usr/bin/python3 python \
+  && pip3 install --upgrade pip
+
+#Instala dependencias del proyecto
 RUN pip install -r requirements.txt
 
-# Quitamos los paquetes gcc y musl-dev 
-RUN apk del .build-deps
 # abrir el puerto 8989
 EXPOSE 8989
 # Comandos para ejecutar el servicio
@@ -82,8 +78,10 @@ EXPOSE 8989
 ENTRYPOINT ["python3"]
 # ejecuta la app
 CMD ["principal.py"]
+
 ~~~
-Se utiliza *RUN apk add --no-cache --virtual .build-deps gcc musl-dev* para instalar packetes necesarios solo para la creación, no se requiere agregar en los packetes globales.  
+
+
 Creamos nuesta imagen:
 ~~~
 docker build -t ecochallenge:3.0 .
@@ -98,15 +96,15 @@ La imagen creada:
 ~~~
 *docker images*
 REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
-ecochallenge              3.0                 f4a8f83b9aa2        26 minutes ago      204MB
+ecochallenge              3.0                 68980547ff8a        5 minutes ago      499MB
 
 *docker ps*
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    
-06ef3833dced        ecochallenge        "python3 principal.py"   15 minutes ago      Up 15 minutes       0.0.0.0:8989->8989/tcp   
+122d348813d7        ecochallenge        "python3 principal.py"   15 minutes ago      Up 15 minutes       0.0.0.0:8989->8989/tcp   
 ~~~
 Y desplegamos la imagen en hub docker, con *docker login* y luego:
 ~~~
-docker tag f4a8f83b9aa2 rodrigoorellana/ecochallenge:3.0
+docker tag 68980547ff8a rodrigoorellana/ecochallenge:3.0
 docker push rodrigoorellana/ecochallenge
 ~~~
 
@@ -115,7 +113,7 @@ Contenedor: https://hub.docker.com/repository/docker/rodrigoorellana/ecochalleng
 Y desplegamos la imagen en github con el id de la imagen creando el tag y subiendo con push  
 ~~~
 docker login docker.pkg.github.com -u $USER -p $TOKEN  
-docker tag f4a8f83b9aa2 docker.pkg.github.com/rodrigo-orellana/eco-challenge/ecochallenge:3.0	
+docker tag 68980547ff8a docker.pkg.github.com/rodrigo-orellana/eco-challenge/ecochallenge:3.0	
 docker push docker.pkg.github.com/rodrigo-orellana/eco-challenge/ecochallenge:3.0  
 ~~~
 Contenedor: https://github.com/rodrigo-orellana/eco-challenge/packages/66342  
@@ -129,16 +127,16 @@ build:
   docker:
     # Dockerfile para crear nuevo docker 
     web: Dockerfile
-run:
-   # Comando de ejecucción del serivicio con WSGI gunicorn
-   web: gunicorn principal:app
 ~~~
 Ademas seguimos los pasos indicados en la documentación [oficial](https://devcenter.heroku.com/articles/build-docker-images-heroku-yml) 
 La prueba del microservicio está disponible desde aquí:
   
-https://ecochallenge.herokuapp.com/          -> indica status de la aplicación  
-https://ecochallenge.herokuapp.com/desafios  -> lista desafios de la BD  
-  
+https://ecochallenge.herokuapp.com/              -> indica status de la aplicación  
+https://ecochallenge.herokuapp.com/desafios      -> lista todos desafios de la BD  
+https://ecochallenge.herokuapp.com/desafios/Bike -> Lista un desafio en perticular  
+
+La evidencia de configuración de asociación de cuenta de heroku con github  
+![heroku](docs/images/heroku.png "heroku")  
 ¿Porque opté por heroku? Vi muchos avisos de trabajo en el cual se requería conocer de este servicio PaaS.  
 ## Arquitectura en capas de microservicios
 La arquitectura de este microservicio está compuesta por tres capas:  
