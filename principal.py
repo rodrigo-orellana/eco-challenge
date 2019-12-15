@@ -40,7 +40,7 @@ def abortar_ruta_inexistente(ruta):
 
 class Principal(Resource):
     def get(self):
-        return {'status': 'OK_user'}
+        return {'status': 'OK_'+user+'_X'}
 
 
 class DesafioIndividual(Resource):
