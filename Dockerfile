@@ -26,5 +26,5 @@ EXPOSE 8989
 # Comandos para ejecutar el servicio
 # ENTRYPOINT indica que CMD se ejecuta sobre python
 ENTRYPOINT ["python3"]
-# ejecuta la app puerto 8989.
-CMD gunicorn -b :8989 principal:app
+# ejecuta la app 
+CMD ["principal.py"]
