@@ -1,15 +1,14 @@
 language: python
 python:
-  - "3.6"
-  - "3.7.3"
-# command to install dependencies
+- '3.6'
+- 3.7.3
 install:
-  - make install
-# Services for Travis
+- make install
 services: mongodb
-#Variables de entorno
 env:
-  - PASS_MBD=r0k4FCFHDNGJKnlh USER_MBD=rodrigoesteban
-# command to run tests
+  matrix:
+  - USER_MBD=rodrigoesteban
+  global:
+  - secure: iiMx3lDoFGK4npGQkuRnGhHPLi00GbYoi//107l/YsPakegB7OGd/FUCBa7qOv+3QYY3YYlkmu4WV57x2RsJArLvpElE1LzrM/cVoOYKl/a/Uth30V5HSamF8dSoib1+0zuDETQ4eyJnt1iK1A9cBKaszDz7EH7i7FTOOa4OhnzVBXi9fm6YGF8BSH3uQskyfP+JVTELhiZPnnOXUk18nxuSU9h58e0gjugNuKJhrtfTAEFTSaCdz8gcoYUq1lkQtJwFRLujCA9AD6Ywd9Qt8aS/dafDeqUmsr4TghNR+cv/nP3Ixl0ijby/JTOvSVeUl2OWH70q/Lp2z8IM4EEeTtN0KUBVLaacKd4mVbli+vYUgcJUKsT4qbaDaF6Cx0ZYUH/zAgddT2mvo1txy5aSvDe1vc/uXIStoimc4Yj/O5AoAIl2eEs5elNDuCRDQQFEQ1Jbvzw91cGm/388uHRZu82zN72OtSjxMHIROaoTfKbP+BEyXUL/O3cE1LAfEPVpZZ4O131RY4K3XGtNkQvY5bRZH4GO5s9L73FbxHfzpwdF1NGroqFehWtCCJprkftph+xg9GsIdXVEtQKmIpWT8WbNp79etU5E+4RbUCaopdo5XIaN6fH5ithbFHr3OCd9Q26+2snszqtYjQnop/XPQltxkHYS0f+e2NMnDmKMAvc=
 script:
-  - make test
+- make test
