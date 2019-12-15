@@ -9,9 +9,7 @@ install:
 services: mongodb
 #Variables de entorno
 env:
-  - TRAVIS=yes
-  - PASS_MBD=r0k4FCFHDNGJKnlh
-  - USER_MBD=rodrigoesteban
+  - PASS_MBD=r0k4FCFHDNGJKnlh USER_MBD=rodrigoesteban
 # command to run tests
 script:
   - make test
