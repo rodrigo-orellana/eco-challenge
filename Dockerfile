@@ -25,7 +25,7 @@ RUN pip install -r requirements.txt
 EXPOSE 8989
 # Comandos para ejecutar el servicio
 # ENTRYPOINT indica que CMD se ejecuta sobre python
-ENTRYPOINT ["python3"]
+# ENTRYPOINT ["python3"]
 # ejecuta la app 
 #CMD ["principal.py"]
 CMD ["gunicorn", "principal:app"]
