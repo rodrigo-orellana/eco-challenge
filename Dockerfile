@@ -28,4 +28,4 @@ EXPOSE 8989
 # ENTRYPOINT ["python3"]
 # ejecuta la app 
 #CMD ["principal.py"]
-CMD ["gunicorn", "principal:app"]
+CMD gunicorn principal:app
