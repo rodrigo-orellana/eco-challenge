@@ -1,10 +1,33 @@
-![Eco Challenge](docs/images/eco.jpeg "Eco Challenge")
+![Eco Challenge](images/eco.jpeg "Eco Challenge")
 ***
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)[![Build Status](https://travis-ci.org/rodrigo-orellana/eco-challenge.svg?branch=master)](https://travis-ci.org/rodrigo-orellana/eco-challenge)[![CircleCI](https://circleci.com/gh/rodrigo-orellana/eco-challenge.svg?style=svg)](https://circleci.com/gh/rodrigo-orellana/eco-challenge)  
 Proyecto CC: Proyecto de curso CC asociado a la sustentabilidad ecológica
 ***
 ## Descripción del proyecto 
 Este proyecto tiene por objetivo incentivar el tipo de vida sustentable con el medio ambiente generando conciencia y acciones pro ecología. Este sistema permitirá a los **organizadores** crear *Desafíos* ecológicos en los cuales de asociarán distintas *metas* las cuales entregarán *puntajes* a los **participantes** que se inscriban en el desafío. Tambien se podrán crear *eventos* en los cuales los usuarios que participen podran sumar puntaje. El sistema tendrá **Auspiciadores** los cuales podrán subir al sistema información asociada a *premios* o *descuentos* a los cuales las personas que cumplan el desafío podrán acceder.
+
+## Arquitectura
+La aplicación será desarrollada siguiendo una arquitectura de [microservicios](https://en.wikipedia.org/wiki/Microservices) 
+Puedes ver la [documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/arquitectura.md) para más información
+
+## Herraminetas
+El desarrollo del proyecto utiliza Python3 venv con microframework Flask para la interfaz REST, base de datos NoSQL [MongoDB](https://www.mongodb.com). Para la utilización de la BD en python se usa [pymongo](https://api.mongodb.com/python/current/). 
+
+Más información sobre lenguajes y tecnologías usadas en la [documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/herramientas.md)  
+
+## Historias de usuario
+Las historias de usuario que representan los requisitos de este proyecto son las siguientes agrupados por microservicio:
+* [Microservicio Desafío](https://github.com/rodrigo-orellana/eco-challenge/milestone/7)
+* [MongMicroservicio CompetidoroDB](https://github.com/rodrigo-orellana/eco-challenge/milestone/6)
+
+## Integración continua
+El objetivo implementa integración continua con Travis-CI y CircleCI . Más información ver la [documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/integracion_continua.md)
+
+## Herramienta de construcción
+buildtool: Makefile  
+Este proyecto implementa un makefile como herramienta builtool, para más información puede consultar la [documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/buildtool.md)
+
+## Test 
+Para la automatización de los test se utiliza el framework de Python llamdo [Unittest](https://docs.python.org/3/library/unittest.html), para más información puede consultar la [documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/test.md)
 
 ## Virtualización sobre Docker
 El concepto de [Docker](https://www.docker.com/) nace de la intención de poder administrar mejor los recursos de hardware (capacidad de computo), al virtualizar se crean pequeños ordenadores virtuales en los que se  distrubuyen los recursos, ademas de aislar las aplicaciones de otras que estén en el mismo servidor en distintas máquinas virtuales. En el caso de Docker, permite crear ambientes vittuales simplificados de pequeño tamaño, los que luego al desplegarse asegura que las pruebas realizadas en local se comportarán identicamente en el servidor de destino, al poseer una configuración que es exactamente la misma localmente y en la nube.  
@@ -109,7 +132,6 @@ https://ecochallenge.herokuapp.com/desafios/Bike -> Lista un desafio en perticul
 
 La evidencia de configuración de asociación de cuenta de heroku con github  
 ![heroku](docs/images/heroku.png "heroku")  
-El paso a paso para la sincronización con git se realizó siguiendo los pasos indicados en la [documentación de heroku](https://devcenter.heroku.com/articles/git)  
 ¿Porque opté por heroku? Vi muchos avisos de trabajo en el cual se requería conocer de este servicio PaaS.  
 ## Arquitectura en capas de microservicios
 La arquitectura de este microservicio está compuesta por tres capas:  
@@ -117,7 +139,3 @@ La arquitectura de este microservicio está compuesta por tres capas:
 **servicio:** Interfaz de acceso al microservicio: [principal.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/principal.py)  
 **negocio:** Ejecuta subrutinas y acciones de los usuarios: [desafio.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/desafio.py) [competidor.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/competidor.py)  
 **BD:** Ejecuta comunicación con BD: [mongoDB.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/mongoDB.py)  
-
-## Documentación
-La documentación del proyecto se encuentra en el siguiente link:
-* [Documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/indice.md)

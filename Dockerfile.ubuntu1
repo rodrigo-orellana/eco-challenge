@@ -1,6 +1,8 @@
 # Esta es la imagen base del proyecto
-FROM ubuntu:latest
-LABEL maintainer="rodrigoesteban@correo.ugr.es"
+FROM ubuntu:16.04
+# Especifica el autor.
+MAINTAINER Rodrigo Orellana
+
 # Indicamos el directorio de trabajo de la imagen:
 WORKDIR ~/ecochallenge/
 
@@ -11,20 +13,29 @@ COPY ./desafio.py  desafio.py
 COPY ./competidor.py  competidor.py
 COPY ./requirements.txt requirements.txt
 
-# Actualizamos la imagen, instalamos pip y lo actualizamos
-# uso el parametro -y porque la construcción no es interactiva.
-RUN apt-get update \
-  && apt-get install -y python3-pip \
-  && cd /usr/local/bin \
-  && ln -s /usr/bin/python3 python \
-  && pip3 install --upgrade pip
+#RUN apt-get update && apt-get install -y python-pip
+RUN apt-get update && \
+  apt-get install -y software-properties-common && \
+  add-apt-repository ppa:jonathonf/python-3.6
+RUN apt-get update
+
+RUN apt-get install -y build-essential python3.6 python3.6-dev python3-pip python3.6-venv
+RUN apt-get install -y git
+
+# update pip
+RUN python3.6 -m pip install pip --upgrade
+
+
+
+
 
 #Instala dependencias del proyecto
 RUN pip install -r requirements.txt
 
+# abrir el puerto 8989
 EXPOSE 8989
 # Comandos para ejecutar el servicio
 # ENTRYPOINT indica que CMD se ejecuta sobre python
 ENTRYPOINT ["python3"]
-# ejecuta la app --bind para especificar al socket donde va a escuchar: localhost puerto 8989.
-CMD gunicorn principal:app --bind 0.0.0.0:8989
+# ejecuta la app
+CMD ["principal.py"]
