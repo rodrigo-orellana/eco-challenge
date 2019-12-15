@@ -1,4 +1,4 @@
-# Esta es la imagen base del proyecto
+# Esta es la imagen base del proyecto 
 FROM ubuntu:latest
 LABEL maintainer="rodrigoesteban@correo.ugr.es"
 # Indicamos el directorio de trabajo de la imagen:
