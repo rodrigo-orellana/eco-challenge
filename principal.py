@@ -21,7 +21,7 @@ print('else')
 user = os.environ.get("USER_MBD")
 passw = os.environ.get("PASS_MBD")
 mongo = BaseDatos(
-    "mongodb+srv://"+user+":"+passw+"@cluster0-qazzt.mongodb.net/desafio?retryWrites=true&w=majority", False)
+    "mongodb+srv://"+str(user)+":"+str(passw)+"@cluster0-qazzt.mongodb.net/desafio?retryWrites=true&w=majority", False)
 
 # nombre,fecha_fin, fecha_ini, pais="España", ciudad="Granada")
 parser = reqparse.RequestParser()
