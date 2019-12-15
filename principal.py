@@ -21,7 +21,7 @@ print('else')
 user = os.environ.get("USER_MBD")
 passw = os.environ.get("PASS_MBD")
 mongo = BaseDatos(
-    "mongodb+srv://rodrigoesteban:r0k4FCFHDNGJKnlh@cluster0-qazzt.mongodb.net/desafio?retryWrites=true&w=majority", False)
+    "mongodb+srv://"+user+":"+passw+"@cluster0-qazzt.mongodb.net/desafio?retryWrites=true&w=majority", False)
 
 # nombre,fecha_fin, fecha_ini, pais="España", ciudad="Granada")
 parser = reqparse.RequestParser()
@@ -40,7 +40,7 @@ def abortar_ruta_inexistente(ruta):
 
 class Principal(Resource):
     def get(self):
-        return {'status': 'OK_'+user+'_X'}
+        return {'status': 'OK'}
 
 
 class DesafioIndividual(Resource):
