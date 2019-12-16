@@ -27,5 +27,6 @@ EXPOSE 8989
 # ENTRYPOINT indica que CMD se ejecuta sobre python
 # ENTRYPOINT ["python3"]
 # ejecuta la app 
-#CMD ["principal.py"]
-CMD gunicorn principal:app
+# ENTRYPOINT indica que CMD se ejecuta sobre python
+ENTRYPOINT ["python3"]
+CMD ["principal.py"]
