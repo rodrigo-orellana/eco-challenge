@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 import logging
 import pymongo
+"""
 from desafio import Desafio
-
 import os
+"""
 
 
 class BaseDatos:
@@ -30,7 +31,8 @@ class BaseDatos:
         if(self.desafio.find_one({"nombre": entrada['nombre']})):
             logging.warning(
                 "MONGO:Desafio %s ya existente, no se ha podido insertar.", entrada['nombre'])
-            return False
+            # return False
+            return True
         else:
             self.desafio.insert_one(entrada)
             logging.info(
@@ -39,9 +41,14 @@ class BaseDatos:
 
     def getDesafio(self, nombre):
         desafio = self.desafio.find_one({"nombre": nombre})
-        del desafio['_id']  # borra el objeto _id
         logging.info(
             "MONGO:Desafio %s devuelto por la base de datos.", nombre)
+
+        if desafio is not None:
+            # borra el objeto _id para no mostrarlo. mantiene el resto
+            del desafio['_id']
+            logging.info(
+                "MONGO:Desafio %s devuelto por la base de datos.", nombre)
         return desafio
 
     def getDesafios(self):
@@ -51,7 +58,7 @@ class BaseDatos:
             salida[j['nombre']] = j
         logging.info("MONGO:Todos los Desafios de la base de datos devueltos.")
         return salida
-
+    """
     def insertDesafio(self, desafio):
         entrada = desafio.__dict__()
         if(self.desafio.find_one({"nombre": entrada['nombre']})):
@@ -63,6 +70,7 @@ class BaseDatos:
             logging.info(
                 "MONGO:Desafio %s insertado en la base de datos.", entrada['nombre'])
             return True
+    """
 
     def removeDesafio(self, nombre):
         logging.info(
@@ -91,16 +99,3 @@ class BaseDatos:
             print("except")
             logging.warning(
                 "MONGO:Error Se pretende actualizar una entrada inexistente.")
-
-
-"""
-
-    def getJugadores(self):
-        salida = {}
-        for j in self.jugadores.find():
-            del j['_id']
-            salida[j['Nick']] = j
-        logging.info(
-            "MONGO:Todos los jugadores de la base de datos devueltos.")
-        return salida
-"""

@@ -17,18 +17,20 @@ logging.basicConfig(filename='app.log', filemode='a',
 
 # Si se trata de una prueba de travis debe de hacerlo en local
 
-print('else')
+
 user = os.environ.get("USER_MBD")
 passw = os.environ.get("PASS_MBD")
-mongo = BaseDatos(
-    "mongodb+srv://"+str(user)+":"+str(passw)+"@cluster0-qazzt.mongodb.net/desafio?retryWrites=true&w=majority", False)
-
-# nombre,fecha_fin, fecha_ini, pais="España", ciudad="Granada")
+ambiente = os.environ.get("AMBIENTE")
+if ambiente != "localhost":
+    mongo = BaseDatos(
+        "mongodb+srv://"+str(user)+":"+str(passw)+"@cluster0-qazzt.mongodb.net/desafio?retryWrites=true&w=majority", False)
+else:
+    mongo = BaseDatos("mongodb://127.0.0.1:27017/MiBaseDatos", True)
 parser = reqparse.RequestParser()
 parser.add_argument('nombre', type=str,
                     help='desafío no puede ser null', required=True)
-parser.add_argument('fecha_ini', type=datetime, required=True)
-parser.add_argument('fecha_fin', type=datetime, required=True)
+parser.add_argument('fecha_ini', type=str, required=False)
+parser.add_argument('fecha_fin', type=str, required=False)
 parser.add_argument('pais', type=str, required=False)
 parser.add_argument('ciudad', type=str, required=False)
 
@@ -51,10 +53,10 @@ class DesafioIndividual(Resource):
 
     def put(self, ruta):
         args = parser.parse_args()
-        desafio = Desafio(args['Nombre'], args['Fecha_ini'], args['Fecha_fin'])
+        desafio = Desafio(args['nombre'], args['fecha_ini'], args['fecha_fin'])
         exito = mongo.insertDesafio(desafio)
         if(not(exito)):
-            mongo.updateDesafio(args['Nombre'], desafio.__dict__())
+            mongo.updateDesafio(args['nombre'], desafio.__dict__())
         return mongo.getDesafio(ruta)
 
     def delete(self, ruta):
@@ -69,8 +71,8 @@ class Desafios(Resource):
 
     def post(self):
         args = parser.parse_args()
-        desafio = Desafio(args['Nombre'], args['Fecha_ini'], args['Fecha_fin'])
-        ruta = args['Nombre']
+        desafio = Desafio(args['nombre'], args['fecha_ini'], args['fecha_fin'])
+        ruta = args['nombre']
         mongo.insertDesafio(desafio)
         return mongo.getDesafio(ruta), 201
 

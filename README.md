@@ -4,120 +4,91 @@
 Proyecto CC: Proyecto de curso CC asociado a la sustentabilidad ecológica
 ***
 ## Descripción del proyecto 
-Este proyecto tiene por objetivo incentivar el tipo de vida sustentable con el medio ambiente generando conciencia y acciones pro ecología. Este sistema permitirá a los **organizadores** crear *Desafíos* ecológicos en los cuales de asociarán distintas *metas* las cuales entregarán *puntajes* a los **participantes** que se inscriban en el desafío. Tambien se podrán crear *eventos* en los cuales los usuarios que participen podran sumar puntaje. El sistema tendrá **Auspiciadores** los cuales podrán subir al sistema información asociada a *premios* o *descuentos* a los cuales las personas que cumplan el desafío podrán acceder.
+Este proyecto tiene por objetivo incentivar el tipo de vida sustentable con el medio ambiente generando conciencia y acciones pro ecología. Este sistema permitirá a los **organizadores** crear *Desafíos* ecológicos en los cuales de asociarán distintas *metas* las cuales entregarán *puntajes* a los **participantes** que se inscriban en el desafío. Tambien se podrán crear *eventos* en los cuales los usuarios que participen podran sumar puntaje. El sistema tendrá **Auspiciadores** los cuales podrán subir al sistema información asociada a *premios* o *descuentos* a los cuales las personas que cumplan el desafío podrán acceder.  
 
-## Virtualización sobre Docker
-El concepto de [Docker](https://www.docker.com/) nace de la intención de poder administrar mejor los recursos de hardware (capacidad de computo), al virtualizar se crean pequeños ordenadores virtuales en los que se  distrubuyen los recursos, ademas de aislar las aplicaciones de otras que estén en el mismo servidor en distintas máquinas virtuales. En el caso de Docker, permite crear ambientes vittuales simplificados de pequeño tamaño, los que luego al desplegarse asegura que las pruebas realizadas en local se comportarán identicamente en el servidor de destino, al poseer una configuración que es exactamente la misma localmente y en la nube.  
-
-Las opciones analizadas  
-* **fedora-python:** Esta imagen basada en fedora que incluye python, tiene un peso cercano a lo 400 MB
-* **Python:** El Docker oficial de Python, con buena aceptación en la comunidad (tag slim-buster). ofrece la ultima versión de Python. Se probó tambien con tag "3", con un peso final de más  de 900 MB.
-* **jfloff/alpine-python** Imágen basada en Alpine, incluye python3-dev. el tag "latest-slim" tiene un peso cercano a 200 MB incluyendo python. Requiere incorporar manualmente la libreria gcc y musl-dev necesario para la instalación. *Esto no significa que la imagen sea mala, lo que ocurre es que está optimizada a tener lo preciso para su ejecución, por lo que para la instalación se puede agregar lo que sea requerido*
-* **ubuntu:latest** Imágen basada en ubuntu, tiene un peso cercano a los 500 MB.  
-
-De las opciones analizadas se opta por **ubuntu:latest** debido a que el ambiente de desarrollo es ubuntu, esto nos asegura mayor compatibilidad.  
-
-**Manos a la obra:** seguimos los siguientes pasos para la creación de nuestra imagen Docker de proyecto:  
-Instalar Docker cliente -> Descargar Imagen -> Copiar fuentes proyecto ->instalar pip3 -> exponer los puertos -> Hacer ejecutable el Docker -> Crear Imagen Docker del proyecto  
-El siguiente es el Dockerfile del proyecto *debidamente comentado*:  
-~~~
-# Esta es la imagen base del proyecto
-FROM ubuntu:latest
-LABEL maintainer="rodrigoesteban@correo.ugr.es"
-# Indicamos el directorio de trabajo de la imagen:
-WORKDIR ~/ecochallenge/
-
-#Copiamos los archivos necesarios para que funcione el servicio web.
-COPY ./principal.py  principal.py
-COPY ./mongoDB.py  mongoDB.py
-COPY ./desafio.py  desafio.py
-COPY ./competidor.py  competidor.py
-COPY ./requirements.txt requirements.txt
-
-# Actualizamos la imagen, instalamos pip y lo actualizamos
-# uso el parametro -y porque la construcción no es interactiva.
-RUN apt-get update \
-  && apt-get install -y python3-pip \
-  && cd /usr/local/bin \
-  && ln -s /usr/bin/python3 python \
-  && pip3 install --upgrade pip
-
-#Instala dependencias del proyecto
-RUN pip install -r requirements.txt
-
-EXPOSE 8989
-# Comandos para ejecutar el servicio
-# ENTRYPOINT indica que CMD se ejecuta sobre python
-ENTRYPOINT ["python3"]
-# ejecuta la app --bind para especificar al socket donde va a escuchar: localhost puerto 8989.
-CMD gunicorn principal:app --bind 0.0.0.0:8989
-~~~
-
-
-Creamos nuesta imagen:
-~~~
-docker build -t ecochallenge:3.0 .
-~~~
-ecochallenge es el nombre de la imagen y el 3.0 es el tag
-Luego la ejecutamos
-~~~
-docker run -it -d -p 8989:8989 ecochallenge
-~~~
-Nuesta aplicación corre en el puerto 8989, se mapea desde el 8989.
-La imagen creada:
-~~~
-*docker images*
-REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
-ecochallenge              3.0                 68980547ff8a        5 minutes ago      499MB
-
-*docker ps*
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    
-122d348813d7        ecochallenge        "python3 principal.py"   15 minutes ago      Up 15 minutes       0.0.0.0:8989->8989/tcp   
-~~~
-Y desplegamos la imagen en hub docker, con *docker login* y luego:
-~~~
-docker tag 68980547ff8a rodrigoorellana/ecochallenge:3.0
-docker push rodrigoorellana/ecochallenge
-~~~
-
-Contenedor: https://hub.docker.com/repository/docker/rodrigoorellana/ecochallenge  
-  
-Y desplegamos la imagen en github con el id de la imagen creando el tag y subiendo con push  
-~~~
-docker login docker.pkg.github.com -u $USER -p $TOKEN  
-docker tag 68980547ff8a docker.pkg.github.com/rodrigo-orellana/eco-challenge/ecochallenge:3.0	
-docker push docker.pkg.github.com/rodrigo-orellana/eco-challenge/ecochallenge:3.0  
-~~~
-Contenedor: https://github.com/rodrigo-orellana/eco-challenge/packages/66342  
-
-
-## Despliegue
-[Despliegue:](https://ecochallenge.herokuapp.com/)  
-El despliegue del servicio web se realiza en [Heroku](https://www.heroku.com), que nos ofrece una plataforma como un servicio ([PaaS](https://en.wikipedia.org/wiki/Platform_as_a_service)) en la nube. Esto nos permite tener a nuestra disposición un servidor en el que poder desplegar nuestro proyecto en la nube de forma gratuita, vinculando nuestra cuenta de github permite realizar el despligue de nuestro servicio automaticamente una vez finalizas correctamente nuestro set de pruebas de TRAVIS. Para ello creamos el archivo de creación de nuestro docker de la siguiente forma:  
-~~~
-build:
-  docker:
-    # Dockerfile para crear nuevo docker 
-    web: Dockerfile
-~~~
-Ademas seguimos los pasos indicados en la documentación [oficial](https://devcenter.heroku.com/articles/build-docker-images-heroku-yml) 
-La prueba del microservicio está disponible desde aquí:
-  
-https://ecochallenge.herokuapp.com/              -> indica status de la aplicación  
-https://ecochallenge.herokuapp.com/desafios      -> lista todos desafios de la BD  
-https://ecochallenge.herokuapp.com/desafios/Bike -> Lista un desafio en perticular  
-
-La evidencia de configuración de asociación de cuenta de heroku con github  
-![heroku](docs/images/heroku.png "heroku")  
-El paso a paso para la sincronización con git se realizó siguiendo los pasos indicados en la [documentación de heroku](https://devcenter.heroku.com/articles/git)  
-¿Porque opté por heroku? Vi muchos avisos de trabajo en el cual se requería conocer de este servicio PaaS.  
-## Arquitectura en capas de microservicios
-La arquitectura de este microservicio está compuesta por tres capas:  
-
-**servicio:** Interfaz de acceso al microservicio: [principal.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/principal.py)  
-**negocio:** Ejecuta subrutinas y acciones de los usuarios: [desafio.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/desafio.py) [competidor.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/competidor.py)  
-**BD:** Ejecuta comunicación con BD: [mongoDB.py](https://github.com/rodrigo-orellana/eco-challenge/blob/master/mongoDB.py)  
-
-## Documentación
 La documentación del proyecto se encuentra en el siguiente link:
-* [Documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/indice.md)
+* [Documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/indice.md)  
+
+## Medición de prestaciones 
+~~~
+Prestaciones:medicion.yml
+~~~  
+Se realiza una medición de prestaciones (SLA), que consiste en medir la carga que soportan los micorservicios. En la creación de un microservicio se debe definir la cantidad de concurrencia que este debe soportar. El requierimiento para este proyecto es que el microservicio poseea un nivel de prestaciones minimo de 1000 peticiones para 10 usuarios concurrentes por un tiempo minimo de 10 segundos a distintas url (get, post, delete)
+
+...
+**Herramienta**  
+Se opta por la herramienta recomendada en el curso: [Taurus](http://gettaurus.org/) la cual es una extensión de Jmeter de Apache. Esta herramienta permite llevar a cabo peticiones para medir las prestaciones concurrentes a un microservicio. Taurus posee un front-end que con informes detallados sobre los resultados de las peticiones. Se realizan peticiones base sobre un solo servicio, y luego peticiones concurrentes, a la vez, varias peticiones. En general, un solo servicio se degradará cuando se comiencen a hacer varias peticiones concurrentes. Taurus utiliza un archivo de configuración YAML que  es un formato de serialización de datos legible por humanos inspirado en lenguajes como XML, C, Python, Perl. El siguiente es el [archivo de medición](https://github.com/rodrigo-orellana/eco-challenge/blob/master/medicion_multi.yml) . 
+
+~~~  
+execution:
+  # usuarios simulados  
+- concurrency: 10
+  # Tiempo en que se crearán los 10 usuarios
+  ramp-up: 10s
+  # Tiempo en el cual se mantendrá la carga
+  hold-for: 20s
+  # nombre del escenario
+  scenario: cc_hito_4
+
+scenarios:
+  cc_hito_4:
+    # tiempo maximo para conectar y recibir respuesta
+    timeout: 5s 
+    # para que no recupere todos los recursos incrustados de páginas HTML
+    retrieve-resources: false
+    # no guardar cache
+    store-cache: false
+    # no guardar cookies
+    store-cookie: false
+    # URL base de las pruebas
+    default-address: http://localhost:8000
+    headers:
+      #definimos el header del cliente de simulación
+      User-Agent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
+      Accept-Language: 'en-US,en;q=0.8'
+      Accept-Encoding: 'gzip, deflate'
+      Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp'
+    requests:
+    # Ruta de la app
+    - /desafios
+    - url: '/desafios'
+      method: POST
+      headers:
+        Content-Type: application/x-www-form-urlencoded
+      body:
+        nombre: test0007
+    - url: '/desafios/test0007'
+      method: GET
+    - url: '/desafios/test0007'
+      method: DELETE
+      headers:
+        Content-Type: application/x-www-form-urlencoded
+      body:
+        nombre: test0007
+~~~  
+
+**Estrategia**  
+El objetivo es medir las prestaciones del servicio, por lo que las pruebas se realizan en local para aislar de la medición las latencias de la red, más aun considerando que el microservicio que está desplegado en Heroku utiliza una BD que está en la nube en distintos sitios (mongoDB). Las pruebas se realizan en local con una mongoDB local tambien.  Considerar en los resultados que el servicio fué probado en una maquina portatil de prestaciones de escritorio, con procesado intel i5 de octava generación. Se realiazań pruebas conjuntas de GET, POST y DELETE.
+***Nota importante:*** No se realizaron pruebas en los ambientes desplegados, debido a que se han utilizado cuentas gratuitas de MongoDB y Heroku. En una situación real de puesta a producción si se haría esencial apuntar las pruebas ahí y tener requisitos tales de la red entre la BD y el servidor en cuando a la velocidad de comunicación o buscar una solución embebida que sería la zona critica a resolver. Dado esto se enfocan los test a la implementación del servicio y sus configuraciones de ejecución  
+  
+**Situación Inicial**  
+Las primeras mediciones se realizan sobre el microservicio en su situación actual. se levanta el servicio:  
+~~~  
+gunicorn principal:app
+~~~  
+Luego se ejecutan los test
+~~~  
+bzt medicion_multi.yml -report
+~~~  
+Se obtienen los siguientes resultados:  
+![test1](docs/images/hito_4.1.png "test 1")  
+La grafica muestra como se comporta el microservicio al recibir peticiones de los 10 usuarios, logrando responder a una velocidad promedio de 512 peticiones por segundo, no presentando errores en ese nivel. El tiempo promedio de respuesta fué de 16 ms, y de estas el 90% se respondieron en 22 ms. Se mantuvo la carga total de usuarios por 10s.  
+
+**Mejora de ejecucción**  
+Para mejorar la cantidad de peticiones a las que puede contestar el servicio, se utiliza algúnos parameros en el comando de unicorn como se muestra en la siguiente línea:  
+~~~  
+gunicorn --workers=5 principal:app
+~~~  
+Segun se indica en la documentación de gunicorn, con el parametro "workers" se le indica a gunicorn que al levantar la aplicación con más capacidad para responder de manera concurrente, segun el número indicado y limitado a la cantidad de cores que posea el procesado (considerar otros procesos que convivan en el servidor). En mi caso de probó con distintos valores, encontrando que con 5 workers (el amiente local posee 6 cores, al restarle -1 mejoró las prestaciones) la aplicación mejora segun se muestra en la siguiente imagen  
+![test2](docs/images/hito_4.2.png "test 2")  
+La grafica muestra como se comporta el microservicio al recibir peticiones de los 10 usuarios, logrando responder a una velocidad promedio de 1234 peticiones por segundo, no presentando errores en ese nivel. El tiempo promedio de respuesta fué de 6 ms, y de estas el 90% se respondieron en 10 ms. Se mantuvo la carga total de usuarios por 10s.  Con esta configuración se cumple el requisito del curso de que el microservicio poseea un nivel de prestaciones minimo de 1000 peticiones para 10 usuarios concurrentes por un tiempo minimo de 10 segundos a distintas url (get, post, delete).  

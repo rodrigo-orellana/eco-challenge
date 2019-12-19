@@ -8,6 +8,7 @@ class Desafio:
     # Crear competidor
     def __init__(self, nombre,
                  fecha_ini, fecha_fin, pais="ESPAÑA", ciudad="GRANADA"):
+        logging.info("Creando desafío.")
         self.premios = []
         self.competidores = []
         self.nombre = nombre
