@@ -1,0 +1,45 @@
+execution:
+  # usuarios simulados  
+- concurrency: 10
+  # Tiempo en que se crearán los 10 usuarios
+  ramp-up: 10s
+  # Tiempo en el cual se mantendrá la carga
+  hold-for: 20s
+  # nombre del escenario
+  scenario: cc_h_ito_4
+
+scenarios:
+  cc_h_ito_4:
+    # tiempo maximo para conectar y recibir respuesta
+    timeout: 5s 
+    # para que no recupere todos los recursos incrustados de páginas HTML
+    retrieve-resources: false
+    # no guardar cache
+    store-cache: false
+    # no guardar cookies
+    store-cookie: false
+    # URL base de las pruebas
+    default-address: http://localhost:8000
+    headers:
+      #definimos el header del cliente de simulación
+      User-Agent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
+      Accept-Language: 'en-US,en;q=0.8'
+      Accept-Encoding: 'gzip, deflate'
+      Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp'
+    requests:
+    # Ruta de la app
+    - /desafios
+    - url: '/desafios'
+      method: POST
+      headers:
+        Content-Type: application/x-www-form-urlencoded
+      body:
+        nombre: test0007
+    - url: '/desafios/test0007'
+      method: GET
+    - url: '/desafios/test0007'
+      method: DELETE
+      headers:
+        Content-Type: application/x-www-form-urlencoded
+      body:
+        nombre: test0007

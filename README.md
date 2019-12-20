@@ -28,10 +28,10 @@ execution:
   # Tiempo en el cual se mantendrá la carga
   hold-for: 20s
   # nombre del escenario
-  scenario: cc_hito_4
+  scenario: cc_h_ito_4
 
 scenarios:
-  cc_hito_4:
+  cc_h_ito_4:
     # tiempo maximo para conectar y recibir respuesta
     timeout: 5s 
     # para que no recupere todos los recursos incrustados de páginas HTML
@@ -81,7 +81,7 @@ Luego se ejecutan los test
 bzt medicion_multi.yml -report
 ~~~  
 Se obtienen los siguientes resultados:  
-![test1](docs/images/hito_4.1.png "test 1")  
+![test1](docs/images/h_ito_4.1.png "test 1")  
 La grafica muestra como se comporta el microservicio al recibir peticiones de los 10 usuarios, logrando responder a una velocidad promedio de 512 peticiones por segundo, no presentando errores en ese nivel. El tiempo promedio de respuesta fué de 16 ms, y de estas el 90% se respondieron en 22 ms. Se mantuvo la carga total de usuarios por 10s.  
 
 **Mejora de ejecucción**  
@@ -90,7 +90,7 @@ Para mejorar la cantidad de peticiones a las que puede contestar el servicio, se
 gunicorn --workers=5 principal:app
 ~~~  
 Segun se indica en la documentación de gunicorn, con el parametro "workers" permite levantar la aplicación web con más capacidad para responder de manera concurrente, segun el número indicado y limitado a la cantidad de cores que posea el procesado (considerar otros procesos que convivan en el servidor). En mi caso de probó con distintos valores, encontrando que con 5 workers (el amiente local posee 6 cores, al restarle 1 a este número obtenemos 5) la aplicación mejora segun se muestra en la siguiente imagen  
-![test2](docs/images/hito_4.2.png "test 2")  
+![test2](docs/images/h_ito_4.2.png "test 2")  
 La grafica muestra como se comporta el microservicio al recibir peticiones de los 10 usuarios, logrando responder a una velocidad promedio de 1234 peticiones por segundo (más del doble de lo que permitía la situación inicial), no presentando errores en ese nivel. El tiempo promedio de respuesta fué de 6 ms, y de estas el 90% se respondieron en 10 ms. Se mantuvo la carga total de usuarios por 10s.  Con esta configuración se cumple el requisito del curso de que el microservicio poseea un nivel de prestaciones minimo de 1000 peticiones para 10 usuarios concurrentes por un tiempo minimo de 10 segundos a distintas url (get, post, delete).  
 Otras tecnicas para mejorar las prestaciones de un microservicio vienen asociadas a almacenar cache de peticiones anteriores, en este caso no fue necesario para alcanzar el requisito, aun que Python permite con [Flask-Cache](https://pythonhosted.org/Flask-Cache/)  agregar esta caracteristica.  
 
