@@ -10,7 +10,7 @@ La documentación del proyecto se encuentra en el siguiente link:
 * [Documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/indice.md)  
 
 ## Medición de prestaciones 
-Prestaciones:fichero_de_medicion.yml  
+Prestaciones: fichero_de_medicion.yml  
 Se realiza una medición de prestaciones (SLA), que consiste en medir la carga que soportan los micorservicios. En la creación de un microservicio se debe definir la cantidad de concurrencia que este debe soportar. El requierimiento para este proyecto es que el microservicio poseea un nivel de prestaciones minimo de 1000 peticiones para 10 usuarios concurrentes por un tiempo minimo de 10 segundos a distintas url (get, post, delete)
 
 ...
@@ -92,4 +92,7 @@ Segun se indica en la documentación de gunicorn, con el parametro "workers" per
 La grafica muestra como se comporta el microservicio al recibir peticiones de los 10 usuarios, logrando responder a una velocidad promedio de 1234 peticiones por segundo (más del doble de lo que permitía la situación inicial), no presentando errores en ese nivel. El tiempo promedio de respuesta fué de 6 ms, y de estas el 90% se respondieron en 10 ms. Se mantuvo la carga total de usuarios por 10s.  Con esta configuración se cumple el requisito del curso de que el microservicio poseea un nivel de prestaciones minimo de 1000 peticiones para 10 usuarios concurrentes por un tiempo minimo de 10 segundos a distintas url (get, post, delete).  
 Otras tecnicas para mejorar las prestaciones de un microservicio vienen asociadas a almacenar cache de peticiones anteriores, en este caso no fue necesario para alcanzar el requisito, aun que Python permite con [Flask-Cache](https://pythonhosted.org/Flask-Cache/)  agregar esta caracteristica.  
 
+**Rutas Anteriores**  
 buildtool: Makefile  
+Contenedor: https://github.com/rodrigo-orellana/eco-challenge/packages/66342  
+[Documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/indice.md)  
