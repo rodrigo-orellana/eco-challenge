@@ -20,4 +20,4 @@ EXPOSE 8989
 # Instalamos las dependecias del servicio (Flask, Flask_restful, pymongo y gunicorn)
 RUN pip3 install -r requirements.txt
 # Ejecutamos el servicio
-CMD gunicorn --workers=5 principal:app
+CMD python3 principal.py 

@@ -10,9 +10,7 @@ La documentación del proyecto se encuentra en el siguiente link:
 * [Documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/indice.md)  
 
 ## Medición de prestaciones 
-~~~
-Prestaciones:fichero_de_medicion.yml
-~~~  
+Prestaciones:fichero_de_medicion.yml  
 Se realiza una medición de prestaciones (SLA), que consiste en medir la carga que soportan los micorservicios. En la creación de un microservicio se debe definir la cantidad de concurrencia que este debe soportar. El requierimiento para este proyecto es que el microservicio poseea un nivel de prestaciones minimo de 1000 peticiones para 10 usuarios concurrentes por un tiempo minimo de 10 segundos a distintas url (get, post, delete)
 
 ...
