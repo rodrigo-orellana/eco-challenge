@@ -22,6 +22,6 @@ EXPOSE 8989
 RUN pip3 install -r requirements.txt
 # Ejecutamos el servicio
 #CMD python3 principal.py 
-RUN conda install scikit-learn
+#RUN conda install scikit-learn
 
 CMD gunicorn --bind 0.0.0.0:8989
