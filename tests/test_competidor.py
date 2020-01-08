@@ -1,7 +1,8 @@
-import sys
-sys.path.insert(0, '../src')
 import unittest
-from src.competidor import Competidor
+import sys
+sys.path.append('challenge')
+
+from competidor import Competidor
 
 
 class TestModel(unittest.TestCase):

@@ -1,7 +1,7 @@
-import sys
-sys.path.append("src")
-
 import unittest
+import sys
+sys.path.append('challenge')
+
 from desafio import Desafio
 from mongoDB import BaseDatos
 import pymongo
