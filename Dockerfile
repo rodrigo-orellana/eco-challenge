@@ -15,7 +15,7 @@ COPY challenge/competidor.py competidor.py
 COPY challenge/__init__.py __init__.py
 COPY requirements.txt requirements.txt
 
-# Esto servirá para abrir el puerto 8989
+# Esto servirá para abrir el puerto 8989.
 EXPOSE 8989
 
 # Instalamos las dependecias del servicio (Flask, Flask_restful, pymongo y gunicorn)
