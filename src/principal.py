@@ -22,9 +22,11 @@ user = os.environ.get("USER_MBD")
 passw = os.environ.get("PASS_MBD")
 ambiente = os.environ.get("AMBIENTE")
 if ambiente != "localhost":
+    logging.info("base de datos cloud"+str(ambiente))
     mongo = BaseDatos(
         "mongodb+srv://"+str(user)+":"+str(passw)+"@cluster0-qazzt.mongodb.net/desafio?retryWrites=true&w=majority", False)
 else:
+    logging.info("base de datos local")
     mongo = BaseDatos("mongodb://127.0.0.1:27017/MiBaseDatos", True)
 parser = reqparse.RequestParser()
 parser.add_argument('nombre', type=str,
