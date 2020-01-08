@@ -8,11 +8,11 @@ WORKDIR ~/ecochallenge/
 
 
 #Copiamos los directorios necesarios para que funcione el servicio web.
-COPY ./principal.py  principal.py
-COPY ./mongoDB.py  mongoDB.py
-COPY ./desafio.py  model.py
-COPY ./competidor.py competidor.py
-COPY ./requirements.txt requirements.txt
+COPY src/principal.py  principal.py
+COPY src/mongoDB.py  mongoDB.py
+COPY src/desafio.py  model.py
+COPY src/competidor.py competidor.py
+COPY src/requirements.txt requirements.txt
 
 # Esto servirá para abrir el puerto 8989
 EXPOSE 8989
