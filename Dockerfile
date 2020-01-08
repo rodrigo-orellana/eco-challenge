@@ -12,6 +12,7 @@ COPY challenge/principal.py  principal.py
 COPY challenge/mongoDB.py  mongoDB.py
 COPY challenge/desafio.py  model.py
 COPY challenge/competidor.py competidor.py
+COPY challenge/__init__.py __init__.py
 COPY requirements.txt requirements.txt
 
 # Esto servirá para abrir el puerto 8989
