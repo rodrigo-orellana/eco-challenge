@@ -2,6 +2,8 @@ import sys
 sys.path.append("../")
 
 import unittest
+import sys
+sys.path.append("src")
 from competidor import Competidor
 
 
