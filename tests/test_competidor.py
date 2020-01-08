@@ -1,5 +1,7 @@
+import sys
+sys.path.insert(0, '../src')
 import unittest
-from src.competidor import Competidor
+from competidor import Competidor
 
 
 class TestModel(unittest.TestCase):
