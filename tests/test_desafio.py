@@ -1,8 +1,7 @@
-import sys
-sys.path.append("src")
-
 import unittest
-from desafio import Desafio
+import sys
+sys.path.append('challenge')
+import Desafio
 
 
 class TestModel(unittest.TestCase):
