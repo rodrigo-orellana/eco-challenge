@@ -1,7 +1,7 @@
 import unittest
 import sys
 sys.path.append('challenge')
-import Desafio
+from desafio import Desafio
 
 
 class TestModel(unittest.TestCase):
