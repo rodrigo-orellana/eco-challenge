@@ -15,10 +15,13 @@ COPY challenge/competidor.py competidor.py
 COPY challenge/__init__.py __init__.py
 COPY requirements.txt requirements.txt
 
-# Esto servirá para abrir el puerto 8989.
+# Esto informa uso  del puerto 8989.
 EXPOSE 8989
 
 # Instalamos las dependecias del servicio (Flask, Flask_restful, pymongo y gunicorn)
 RUN pip3 install -r requirements.txt
 # Ejecutamos el servicio
-CMD python3 principal.py 
+#CMD python3 principal.py 
+RUN conda install scikit-learn
+
+CMD gunicorn --bind 0.0.0.0:8989
