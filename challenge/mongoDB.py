@@ -16,12 +16,7 @@ class BaseDatos:
         MONGODB_URI = direccion
         client = pymongo.MongoClient(MONGODB_URI, connectTimeoutMS=40000)
         db = client["desafio"]
-        """
-        if ('NONAME' in os.environ):
-            db = client["desafio"]
-        else:
-            db = client["desafio"]
-        """
+       
         if (not prueba):
             self.desafio = db.desafio
         else:
@@ -56,19 +51,6 @@ class BaseDatos:
 
     def delete(self, _id):
         self.desafio.delete_one({"_id": ObjectId(_id)})
-
-    def getDesafios(self):
-        salida = {}
-        for j in self.desafio.find():
-            del j['_id']
-            salida[j['nombre']] = j
-        logging.info("MONGO:Todos los Desafios de la base de datos devueltos.")
-        return salida
-
-    def removeDesafios(self):
-        for j in self.desafio.find():
-            self.removeDesafio(j['nombre'])
-        logging.info("MONGO:Base de datos de Desafio vaciada por completo.")
 
     def getSize(self):
         return self.desafio.count_documents({})

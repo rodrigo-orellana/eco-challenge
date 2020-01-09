@@ -74,15 +74,16 @@ class Desafios(Resource):
 
     def post(self):
         args = parser.parse_args()
-        id = desafio_data.create(args['nombre'],args['fecha_ini'],args['fecha_fin'],'pais','ciudad')
+        id = desafio_data.create(args['nombre'],args['fecha_ini'],args['fecha_fin'],args['pais'],args['ciudad'])
         return "Event Added. ID={}".format(id), 201
     """
     def delete(self):
         mongo.removeDesafios()
         return '', 204
-    """
+    
     def get(self):
         return mongo.getDesafios()
+    """
 # Rutas rest
 api.add_resource(Principal, '/', '/status')
 api.add_resource(Desafios, '/desafios')
