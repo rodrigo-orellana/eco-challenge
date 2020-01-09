@@ -1,27 +1,28 @@
 FROM frolvlad/alpine-python3:latest
 LABEL maintainer="Rodrigo Orellana"
 
-# Con esta imagen se supone que ya tenemos instalado python3 en Alpine
+# Con esta imagen ya tenemos instalado python3 en Alpine
 
-#Indicamos el directorio de trabajo de la imagen:
-WORKDIR ~/ecochallenge/
+# Carga archivo de requerimientos 
+ADD ./requirements.txt /tmp/requirements.txt
 
+# Instala requerimientos
+RUN pip3 install -qr /tmp/requirements.txt
 
-#Copiamos los directorios necesarios para que funcione el servicio web.
-COPY challenge/principal.py  principal.py
-COPY challenge/mongoDB.py  mongoDB.py
-COPY challenge/desafio.py  model.py
-COPY challenge/competidor.py competidor.py
-COPY challenge/__init__.py __init__.py
-COPY requirements.txt requirements.txt
+# sube ficheros fuente
+ADD ./challenge opt/webapp/
+
+# Indicamos el directorio de trabajo de la imagen
+WORKDIR /opt/webapp
 
 # Esto informa uso  del puerto 8989.
 EXPOSE 8989
 
-# Instalamos las dependecias del servicio (Flask, Flask_restful, pymongo y gunicorn)
-RUN pip3 install -r requirements.txt
-# Ejecutamos el servicio
 #CMD python3 principal.py 
-#RUN conda install scikit-learn
 
-CMD gunicorn --bind 0.0.0.0:8989
+#Para que no se ejecute como root
+#RUN useradd -m userapp
+#USER userapp
+
+#CMD gunicorn --workers=5 principal:app
+CMD gunicorn --workers=5 --bind 0.0.0.0:8989 principal:app
