@@ -16,7 +16,7 @@ ADD ./challenge opt/webapp/
 WORKDIR /opt/webapp
 
 # Esto informa uso  del puerto 8989.
-EXPOSE 8989
+EXPOSE ${PORT}
 
 #CMD python3 principal.py 
 
@@ -25,4 +25,4 @@ EXPOSE 8989
 #USER userapp
 
 #CMD gunicorn --workers=5 principal:app
-CMD gunicorn --workers=5 --bind 0.0.0.0:8989 principal:app
+CMD gunicorn --workers=5 --bind 0.0.0.0:${PORT} principal:app
