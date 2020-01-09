@@ -7,17 +7,11 @@ Created on Wed Nov 01 2019
 
 
 class Competidor:
-    # Crear competidor
-    def __init__(self, nombre, fecha_ins, edad, sexo, pais, ciudad):
-        self.scores = []
-        self.premios = []
-        self.nombre = nombre
-        self.fecha_ins = fecha_ins
-        self.edad = edad
-        self.sexo = sexo
-        self.pais = pais
-        self.ciudad = ciudad
-
+    # Method init
+    def __init__(self, data_access):
+        # inyeccion de dependencia
+        self.data_access = data_access
+    """
     def aniadir_puntaje(self, nuevo_score):
         self.scores.append(nuevo_score)
         return 'Dato valido'
@@ -45,9 +39,49 @@ class Competidor:
 
     def update_ciudad(self, ciudad_new):
         self.ciudad = ciudad_new
+        """ 
+    #CRUD ***************************************************************************************
+    def search_by_name(self, nombre):
+        return self.data_access.get(key='title', value=title)
+
+    def create(self, nombre, fecha_ins, edad, sexo, pais, ciudad):
+        if self.search_by_name(nombre) == None:
+            item = dict(
+                nombre=nombre,
+                fecha_ins=fecha_ins,
+                edad=edad,
+                sexo=sexo,
+                pais=pais,
+                ciudad=ciudad
+            )
+            _id = self.data_access.insert(item)
+            return _id
+        else:
+            raise ValueError("El competidor ya existe")
+
+    def search_by_id(self, id):
+        res = self.data_access.get(key='_id', value=id)
+        if res == None:
+            raise LookupError("Registro no encontrado")
+        return res
+
+
+    def remove(self, id):
+        self.search_by_id(id)
+        self.data_access.delete(id)
+    
+
+    def modify(self, id, new_values):
+        event = self.search_by_id(id)
+        for key in new_values.keys():
+            if key not in event.keys():
+                raise KeyError("No existe registro " + str(key))
+            if key == "_id":
+                raise KeyError("Error al modificar")
+        self.data_access.update(id, new_values)
+
+
 # Clase que representa la estructura de los datos score
-
-
 class Score:
 
     # Crear un score

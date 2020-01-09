@@ -2,23 +2,17 @@
 # -*- coding: utf-8 -*-
 import logging
 
-
-class Desafio:
-
-    # Crear competidor
-    def __init__(self, nombre,
-                 fecha_ini, fecha_fin, pais="ESPAÑA", ciudad="GRANADA"):
-        logging.info("Creando desafío.")
-        self.premios = []
-        self.competidores = []
-        self.nombre = nombre
-        self.fecha_ini = fecha_ini
-        self.fecha_fin = fecha_fin
-        self.pais = pais
-        self.ciudad = ciudad
 # TODO: obtent ranking, calcular ganadores
 # Duda diseño: premio acá o en usuario?
 
+class Desafio:
+
+    # init desafio
+    def __init__(self, data_access):
+        # inyeccion de dependencia
+        self.data_access = data_access
+
+    """
     def __dict__(self):
         d = {
             "nombre": self.nombre,
@@ -27,9 +21,9 @@ class Desafio:
             "pais": self.pais,
             "ciudad": self.ciudad
         }
-
+   
         return d
-
+    
     def aniadir_premio(self, nuevo_premio):
         if nuevo_premio is None:
             return 'Dato no valido'
@@ -68,6 +62,46 @@ class Desafio:
 
     def update_ciudad(self, ciudad_new):
         self.ciudad = ciudad_new
+    """
+    #CRUD ***************************************************************************************
+    def search_by_name(self, nombre):
+        return self.data_access.get(key='nombre', value=nombre)
+
+    def create(self, nombre, fecha_ini, fecha_fin, pais="ESPAÑA", ciudad="GRANADA"):
+        if self.search_by_name(nombre) == None:
+            item = dict(
+                nombre=nombre,
+                fecha_ini=fecha_ini,
+                fecha_fin=fecha_fin,
+                pais=pais,
+                ciudad=ciudad
+            )
+            _id = self.data_access.insert(item)
+            return _id
+        else:
+            raise ValueError("Ya existe el registro que se intenta crear")
+    
+    def modify(self, id, new_values):
+        event = self.search_by_id(id)
+        for key in new_values.keys():
+            if key not in event.keys():
+                raise KeyError("No existe registro con campo" + str(key))
+            if key == "_id":
+                raise KeyError("Campo _id no es modificable")
+        
+        self.data_access.update(id, new_values)
+
+    def search_by_id(self, id):
+        res = self.data_access.get(key='_id', value=id)
+        if res == None:
+            raise LookupError("No existe registro con ese ID")
+
+        return res
+
+    def remove(self, id):
+        self.search_by_id(id)
+        self.data_access.delete(id)
+    
 
 
 """ 
