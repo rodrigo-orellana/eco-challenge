@@ -42,7 +42,7 @@ class Competidor:
         """ 
     #CRUD ***************************************************************************************
     def search_by_name(self, nombre):
-        return self.data_access.get(key='title', value=title)
+        return self.data_access.get(key='nombre', value=nombre)
 
     def create(self, nombre, fecha_ins, edad, sexo, pais, ciudad):
         if self.search_by_name(nombre) == None:
