@@ -14,10 +14,10 @@ ambiente = os.environ.get("AMBIENTE")
 if ambiente != "localhost":
     logging.info("base de datos cloud"+str(ambiente))
     mongo = BaseDatos(
-        "mongodb+srv://"+str(user)+":"+str(passw)+"@cluster0-qazzt.mongodb.net/desafio?retryWrites=true&w=majority", False)
+        "mongodb+srv://"+str(user)+":"+str(passw)+"@cluster0-qazzt.mongodb.net/desafio?retryWrites=true&w=majority", False, "competidor")
 else:
     logging.info("base de datos local")
-    mongo = BaseDatos("mongodb://127.0.0.1:27017/MiBaseDatos", True)
+    mongo = BaseDatos("mongodb://127.0.0.1:27017/MiBaseDatos", True, "competidor")
 
 # inyeccion de dependencia
 competidor_data = Competidor(data_access=mongo)

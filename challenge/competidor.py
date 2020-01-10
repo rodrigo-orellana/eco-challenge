@@ -11,35 +11,7 @@ class Competidor:
     def __init__(self, data_access):
         # inyeccion de dependencia
         self.data_access = data_access
-    """
-    def aniadir_puntaje(self, nuevo_score):
-        self.scores.append(nuevo_score)
-        return 'Dato valido'
-
-    def get_edad(self):
-        return self.edad
-
-    def get_fecha_sexo(self):
-        return self.sexo
-
-    def get_pais(self):
-        return self.pais
-
-    def get_ciudad(self):
-        return self.ciudad
-
-    def update_edad(self, edad_new):
-        self.edad = edad_new
-
-    def update_sexo(self, sexo_new):
-        self.sexo = sexo_new
-
-    def update_pais(self, pais_new):
-        self.pais = pais_new
-
-    def update_ciudad(self, ciudad_new):
-        self.ciudad = ciudad_new
-        """ 
+ 
     #CRUD ***************************************************************************************
     def search_by_name(self, nombre):
         return self.data_access.get(key='nombre', value=nombre)

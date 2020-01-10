@@ -11,11 +11,11 @@ import os
 
 
 class BaseDatos:
-    def __init__(self, direccion, prueba=False):
+    def __init__(self, direccion, prueba=False, collection="desafio"):
         logging.info("MONGO:Tratando de conectar con la base de datos.")
         MONGODB_URI = direccion
         client = pymongo.MongoClient(MONGODB_URI, connectTimeoutMS=40000)
-        db = client["desafio"]
+        db = client[collection]
        
         if (not prueba):
             self.desafio = db.desafio
