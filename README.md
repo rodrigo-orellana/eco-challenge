@@ -80,12 +80,12 @@ Otras tecnicas para mejorar las prestaciones de un microservicio vienen asociada
 
 
 **imversión de dependencias (single source of truth)**  
-Las siguientes son los principios de Inversión de dependencias:  
+Los siguientes son los principios de Inversión de dependencias:  
 A. Las clases de alto nivel no deberían depender de las clases de bajo nivel. Ambas deberían depender de las abstracciones.  
 B. Las abstracciones no deberían depender de los detalles. Los detalles deberían depender de las abstracciones.  
-lo que plantea aplicar absatración del acceso a base de datos, de modo que permita mejor mantenibilidad y crecimiento. Ademas un cambio de tipo de base de datos tendría menor impacto.  
-Para implementarlo en el proyecto de aplicaron cambios en las distantas clases, la aplicación WEB no instancia directamente a la BD ni a la clase que la administra, en su lugar solo instáncia al objeto lógicos que administra (desafios) y a traves de esta realiza los metos CRUD (get, post, delete).
-Ejemplos: Los llamados a metodos CRUD desde la [aplicación WEB](https://github.com/rodrigo-orellana/eco-challenge/blob/master/challenger/principal.py)  
+Lo que plantea es aplicar absatración del acceso a base de datos, de modo que permita mejor mantenibilidad y crecimiento. Ademas un cambio de tipo de base de datos tendría menor impacto.  
+Para implementarlo en el proyecto se aplicaron cambios en las distantas clases, la aplicación WEB no instancia directamente a la BD ni a la clase que la administra, en su lugar solo instáncia al objeto lógicos que administra (desafios) y a traves de esta realiza los metos CRUD (get, post, delete).  
+Ejemplos: Los llamados a metodos CRUD desde la [aplicación WEB](https://github.com/rodrigo-orellana/eco-challenge/blob/master/challenge/principal.py)  
 GET  
 ~~~  
 desafio = desafio_data.search_by_name(ruta)
@@ -100,7 +100,7 @@ POST
 ~~~
 id = desafio_data.create(args['nombre'],args['fecha_ini'],args['fecha_fin'],args['pais'],args['ciudad'])
 ~~~
-Por otro lado existe otra [clase encargada](https://github.com/rodrigo-orellana/eco-challenge/blob/master/challenge/mongoDB.py) ir a la base de datos (mongodb) la cual posee los metodos genericos: consultar, insertar, borrar y modificar. Si en un futuro se agregan otros microservicios se podría utilizar esta misma clase para la gestión de la BD.  
+Por otro lado existe una [clase encargada](https://github.com/rodrigo-orellana/eco-challenge/blob/master/challenge/mongoDB.py) ir a la base de datos (mongodb) la cual posee los metodos genericos: consultar, insertar, borrar y modificar. Si en un futuro se agregan otros microservicios se podría utilizar esta misma clase para la gestión de la BD.  
 
 **Rutas Anteriores**  
 buildtool: Makefile  
