@@ -1,6 +1,6 @@
 ![Eco Challenge](docs/images/eco.jpeg "Eco Challenge")
 ***
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)[![Build Status](https://travis-ci.org/rodrigo-orellana/eco-challenge.svg?branch=master)](https://travis-ci.org/rodrigo-orellana/eco-challenge)[![CircleCI](https://circleci.com/gh/rodrigo-orellana/eco-challenge.svg?style=svg)](https://circleci.com/gh/rodrigo-orellana/eco-challenge)  
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)[![Build Status](https://travis-ci.org/rodrigo-orellana/eco-challenge.svg?branch=master)](https://travis-ci.org/rodrigo-orellana/eco-challenge)
 Proyecto CC: Proyecto de curso CC asociado a la sustentabilidad ecológica
 ***
 ## Descripción del proyecto 
@@ -65,42 +65,42 @@ Luego se ejecutan los test
 bzt fichero_de_medicion.yml -report
 ~~~  
 Se obtienen los siguientes resultados:  
-![test1](docs/images/hito4_r01.png "test 1")  
+![test1](docs/images/hito4_r00.png "test 1")  
 La grafica muestra como se comporta el microservicio al recibir peticiones de los 10 usuarios, logrando responder a una velocidad promedio de 1310 peticiones por segundo, no presentando errores en ese nivel. El tiempo promedio de respuesta fué de 6 ms, y de estas el 90% se respondieron en 8 ms. Se mantuvo la carga total de usuarios por 15s.  
+
+**Mejora de ejecucción**  
+Para mejorar la cantidad de peticiones a las que puede contestar el servicio, se utiliza algúnos parámeros en el comando de unicorn como se muestra en la siguiente línea:  
+~~~  
+gunicorn --workers=5 principal:app
+~~~  
+Según se indica en la documentación de gunicorn, con el parametro "workers" permite levantar la aplicación web con más capacidad para responder de manera concurrente, segun el número indicado y limitado a la cantidad de cores que posea el procesado (considerar otros procesos que convivan en el servidor). En mi caso de probó con distintos valores, encontrando que con 5 workers (el amiente local posee 6 cores, al restarle 1 a este número obtenemos 5) la aplicación mejora segun se muestra en la siguiente imagen  
+![test2](docs/images/hito4_r01.png "test 2")  
+La grafica muestra como se comporta el microservicio al recibir peticiones de los 10 usuarios, logrando responder a una velocidad promedio de 3765 peticiones por segundo (más del doble de lo que permitía la situación inicial), no presentando errores en ese nivel. El tiempo promedio de respuesta fué de 2 ms, y de estas el 90% se respondieron en 3 ms. Se mantuvo la carga total de usuarios por 15s.  Con esta configuración se cumple el requisito del curso de que el microservicio poseea un nivel de prestaciones minimo de 1000 peticiones para 10 usuarios concurrentes por un tiempo minimo de 10 segundos a distintas url (get, post, delete).  
+Otras tecnicas para mejorar las prestaciones de un microservicio vienen asociadas a almacenar cache de peticiones anteriores, en este caso no fue necesario para alcanzar el requisito, aun que Python permite con [Flask-Cache](https://pythonhosted.org/Flask-Cache/)  agregar esta caracteristica.  
 
 
 **imversión de dependencias (single source of truth)**  
 Las siguientes son los principios de Inversión de dependencias:  
 A. Las clases de alto nivel no deberían depender de las clases de bajo nivel. Ambas deberían depender de las abstracciones.  
 B. Las abstracciones no deberían depender de los detalles. Los detalles deberían depender de las abstracciones.  
-lo que plantea aplicar absatración del acceso a base de datos, de modo que permita mejor mantenibilidad y crecimiento. Ademas un cambio de tipo de base de datos tendría menor impacto.
+lo que plantea aplicar absatración del acceso a base de datos, de modo que permita mejor mantenibilidad y crecimiento. Ademas un cambio de tipo de base de datos tendría menor impacto.  
 Para implementarlo en el proyecto de aplicaron cambios en las distantas clases, la aplicación WEB no instancia directamente a la BD ni a la clase que la administra, en su lugar solo instáncia al objeto lógicos que administra (desafios) y a traves de esta realiza los metos CRUD (get, post, delete).
-Ejemplos: Los llamados a metodos CRUD desde la [aplicación WEB](https://github.com/rodrigo-orellana/eco-challenge/blob/master/challenger/principal.py)
-GET
+Ejemplos: Los llamados a metodos CRUD desde la [aplicación WEB](https://github.com/rodrigo-orellana/eco-challenge/blob/master/challenger/principal.py)  
+GET  
 ~~~  
 desafio = desafio_data.search_by_name(ruta)
 ~~~
 
-DELETE
+DELETE  
 ~~~
 desafio_data.remove(ruta)
 ~~~
 
-POST
+POST  
 ~~~
 id = desafio_data.create(args['nombre'],args['fecha_ini'],args['fecha_fin'],args['pais'],args['ciudad'])
 ~~~
 Por otro lado existe otra [clase encargada](https://github.com/rodrigo-orellana/eco-challenge/blob/master/challenge/mongoDB.py) ir a la base de datos (mongodb) la cual posee los metodos genericos: consultar, insertar, borrar y modificar. Si en un futuro se agregan otros microservicios se podría utilizar esta misma clase para la gestión de la BD.  
-
-**Mejora de ejecucción**  
-Para mejorar la cantidad de peticiones a las que puede contestar el servicio, se utiliza algúnos parameros en el comando de unicorn como se muestra en la siguiente línea:  
-~~~  
-gunicorn --workers=5 principal:app
-~~~  
-Segun se indica en la documentación de gunicorn, con el parametro "workers" permite levantar la aplicación web con más capacidad para responder de manera concurrente, segun el número indicado y limitado a la cantidad de cores que posea el procesado (considerar otros procesos que convivan en el servidor). En mi caso de probó con distintos valores, encontrando que con 5 workers (el amiente local posee 6 cores, al restarle 1 a este número obtenemos 5) la aplicación mejora segun se muestra en la siguiente imagen  
-![test2](docs/images/hito4_r01.png "test 2")  
-La grafica muestra como se comporta el microservicio al recibir peticiones de los 10 usuarios, logrando responder a una velocidad promedio de 3765 peticiones por segundo (más del doble de lo que permitía la situación inicial), no presentando errores en ese nivel. El tiempo promedio de respuesta fué de 2 ms, y de estas el 90% se respondieron en 3 ms. Se mantuvo la carga total de usuarios por 15s.  Con esta configuración se cumple el requisito del curso de que el microservicio poseea un nivel de prestaciones minimo de 1000 peticiones para 10 usuarios concurrentes por un tiempo minimo de 10 segundos a distintas url (get, post, delete).  
-Otras tecnicas para mejorar las prestaciones de un microservicio vienen asociadas a almacenar cache de peticiones anteriores, en este caso no fue necesario para alcanzar el requisito, aun que Python permite con [Flask-Cache](https://pythonhosted.org/Flask-Cache/)  agregar esta caracteristica.  
 
 **Rutas Anteriores**  
 buildtool: Makefile  

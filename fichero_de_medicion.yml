@@ -29,4 +29,3 @@ scenarios:
         # ejecutar get dato no existente
         - url: http://localhost:8989/desafios/Bike
           method: GET
-
