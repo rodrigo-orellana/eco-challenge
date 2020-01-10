@@ -26,10 +26,10 @@ execution:
         # Tiempo en el cual se mantendrá la carga
       hold-for: 20s
         # nombre del escenario
-      scenario: cc_hito_4
+      scenario: cc_hit0_4
 
 scenarios:
-    cc_hito_4:
+    cc_hit0_4:
         #entregamos archivo con datos de prueba para post
         data-sources:
         - data_medicion_post.csv
