@@ -84,7 +84,7 @@ Los siguientes son los principios de Inversión de dependencias:
 A. Las clases de alto nivel no deberían depender de las clases de bajo nivel. Ambas deberían depender de las abstracciones.  
 B. Las abstracciones no deberían depender de los detalles. Los detalles deberían depender de las abstracciones.  
 Lo que plantea es aplicar absatración del acceso a base de datos, de modo que permita mejor mantenibilidad y crecimiento. Ademas un cambio de tipo de base de datos tendría menor impacto.  
-Para implementarlo en el proyecto se aplicaron cambios en las distantas clases, la aplicación WEB no instancia directamente a la BD ni a la clase que la administra, en su lugar solo instáncia al objeto lógicos que administra (desafios) y a traves de esta realiza los metos CRUD (get, post, delete).  
+Para implementarlo en el proyecto se aplicaron cambios en las distantas clases, la aplicación WEB no interviene directamente a la BD, en su lugar instáncia al objeto lógicos que administra (desafios) y a traves de esta realiza los metos CRUD (get, post, delete), quien a su vez utiliza la clase de gestión de la BD para ejecutar dichos metodos.  
 Ejemplos: Los llamados a metodos CRUD desde la [aplicación WEB](https://github.com/rodrigo-orellana/eco-challenge/blob/master/challenge/principal.py)  
 GET  
 ~~~  
