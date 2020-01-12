@@ -3,6 +3,6 @@ La aplicación será desarrollada siguiendo una arquitectura de [microservicios]
 Se construirán los siguientes microservicios:
 1. Desafíos: Entidad que representa el desafío
 2. Competidores: Entidad que representa a los usuarios que participan en el desafío
-4. Auspiciadores: Entidad de representa a los auspiciadores que entregarán premios en en desafío
+3. Auspiciadores: Entidad de representa a los auspiciadores que entregarán premios en en desafío
 
-![Arquitectura](docs/images/arquitectura2.png "Arquitectura")
+![Arquitectura](images/arquitectura2.png "Arquitectura")

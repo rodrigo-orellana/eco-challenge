@@ -18,6 +18,6 @@ make test
 ~~~
 Esté comando ejecutará la siguiente instrucción
 ~~~
-python -m unittest discover tests
+python3 -m unittest discover tests
 ~~~
 Unitest será detallado en el punto siguiente. Discover permite indicar a unittest que busque los test, en este caso en el directorio "tests"

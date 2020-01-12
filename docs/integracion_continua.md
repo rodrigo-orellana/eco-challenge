@@ -4,7 +4,7 @@
 2. Vincular nuestra cuenta de GitHub a Travis en el [sitio oficial](https://travis-ci.org)
 3. Indicar a Travis el repositorio que queremos que Travis ejecute los test.
 4. Crear y subir al repositorio el archivo de configuración [.travis.yml](https://github.com/rodrigo-orellana/eco-challenge/blob/master/.travis.yml):  
-5. Crear archivo de dependencias [requirements.txt]  (https://github.com/rodrigo-orellana/eco-challenge/blob/master/requirements.txt)  
+5. Crear archivo de dependencias [requirements.txt](https://github.com/rodrigo-orellana/eco-challenge/blob/master/requirements.txt)  
 ~~~
 language: python
 python:
