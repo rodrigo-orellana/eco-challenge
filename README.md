@@ -85,7 +85,7 @@ A. Las clases de alto nivel no deberían depender de las clases de bajo nivel. A
 B. Las abstracciones no deberían depender de los detalles. Los detalles deberían depender de las abstracciones.  
 Lo que plantea es aplicar absatración del acceso a base de datos, de modo que permita mejor mantenibilidad y crecimiento. Ademas un cambio de tipo de base de datos tendría menor impacto.  
 Para implementarlo en el proyecto se aplicaron cambios en las distantas clases, la aplicación WEB no interviene directamente a la BD, en su lugar instáncia al objeto lógicos que administra (desafios) y a traves de esta realiza los metos CRUD (get, post, delete), quien a su vez utiliza la clase de gestión de la BD para ejecutar dichos metodos.  
-Ejemplos: Los llamados a metodos CRUD desde la [aplicación WEB](https://github.com/rodrigo-orellana/eco-challenge/blob/master/challenge/principal.py)  
+Ejemplos: Los llamados a metodos CRUD desde la [aplicación WEB](https://github.com/rodrigo-orellana/eco-challenge/blob/master/challenge/wsgi.py)  
 GET  
 ~~~  
 desafio = desafio_data.search_by_name(ruta)
