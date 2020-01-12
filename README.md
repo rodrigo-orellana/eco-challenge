@@ -26,10 +26,10 @@ execution:
         # Tiempo en el cual se mantendrá la carga
       hold-for: 20s
         # nombre del escenario
-      scenario: cc_hit0_4
+      scenario: cc_hito_4
 
 scenarios:
-    cc_hit0_4:
+    cc_hito_4:
         #entregamos archivo con datos de prueba para post
         data-sources:
         - data_medicion_post.csv
@@ -43,11 +43,11 @@ scenarios:
         #  cuerpo del post
             body:
               nombre: ${desafio}
-        # ejecutar GET dato existente
-        - url: http://localhost:8989/desafios/test0007
+        # ejecutar GET 
+        - url: http://localhost:8989/desafios/Limpia
           method: GET
-        # ejecutar get dato no existente
-        - url: http://localhost:8989/desafios/Bike
+        # ejecutar get otra ruta
+        - url: http://localhost:8989/desafios/Reciclaje
           method: GET
 ~~~  
 
@@ -58,7 +58,7 @@ El objetivo es medir las prestaciones del servicio, por lo que las pruebas se re
 **Situación Inicial**  
 Las primeras mediciones se realizan sobre el microservicio en su situación actual. se levanta el servicio:  
 ~~~  
-gunicorn principal:app
+gunicorn wsgi:app
 ~~~  
 Luego se ejecutan los test
 ~~~  
@@ -71,7 +71,7 @@ La grafica muestra como se comporta el microservicio al recibir peticiones de lo
 **Mejora de ejecucción**  
 Para mejorar la cantidad de peticiones a las que puede contestar el servicio, se utiliza algúnos parámeros en el comando de unicorn como se muestra en la siguiente línea:  
 ~~~  
-gunicorn --workers=5 principal:app
+gunicorn --workers=5 wsgi:app
 ~~~  
 Según se indica en la documentación de gunicorn, con el parametro "workers" permite levantar la aplicación web con más capacidad para responder de manera concurrente, segun el número indicado y limitado a la cantidad de cores que posea el procesado (considerar otros procesos que convivan en el servidor). En mi caso de probó con distintos valores, encontrando que con 5 workers (el amiente local posee 6 cores, al restarle 1 a este número obtenemos 5) la aplicación mejora segun se muestra en la siguiente imagen  
 ![test2](docs/images/hit04_r01.png "test 2")  
@@ -101,6 +101,9 @@ POST
 id = desafio_data.create(args['nombre'],args['fecha_ini'],args['fecha_fin'],args['pais'],args['ciudad'])
 ~~~
 Por otro lado existe una [clase encargada](https://github.com/rodrigo-orellana/eco-challenge/blob/master/challenge/mongoDB.py) ir a la base de datos (mongodb) la cual posee los metodos genericos: consultar, insertar, borrar y modificar. Si en un futuro se agregan otros microservicios se podría utilizar esta misma clase para la gestión de la BD.  
+
+Se actualizan los test, ajustados a la nueva estructura de metodos de las clases. Tambien de incorpora a estos la libreria mock para simular la BD para las pruebas.  
+
 
 **Rutas Anteriores**  
 buildtool: Makefile  
