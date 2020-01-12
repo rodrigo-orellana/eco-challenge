@@ -1,4 +1,5 @@
 FROM frolvlad/alpine-python3:latest
+# instrucción informativa
 LABEL maintainer="Rodrigo Orellana"
 
 # Con esta imagen ya tenemos instalado python3 en Alpine
@@ -18,11 +19,5 @@ WORKDIR /opt/webapp
 # Esto informa uso  del puerto 8989.
 EXPOSE ${PORT}
 
-#CMD python3 principal.py 
-
-#Para que no se ejecute como root
-#RUN useradd -m userapp
-#USER userapp
-
-#CMD gunicorn --workers=5 principal:app
-CMD gunicorn --workers=5 --bind 0.0.0.0:${PORT} principal:app
+# Ejecuta comando para levantar webapp
+CMD gunicorn --workers=5 --bind 0.0.0.0:${PORT} wsgi:app

@@ -39,7 +39,7 @@ def abortar_ruta_inexistente(ruta):
     if(False):  # crear validación
         abort(404, message="Error 404. La ruta {} no existe".format(ruta))
 
-class Principal(Resource):
+class Api_rest(Resource):
     def get(self):
         return {'status': 'OK'}
 
@@ -85,7 +85,7 @@ class Desafios(Resource):
         return mongo.getDesafios()
     """
 # Rutas rest
-api.add_resource(Principal, '/', '/status')
+api.add_resource(Api_rest, '/', '/status')
 api.add_resource(Desafios, '/desafios')
 api.add_resource(DesafioIndividual, '/desafios/<string:ruta>')
 

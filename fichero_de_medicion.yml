@@ -23,9 +23,9 @@ scenarios:
         #  cuerpo del post
             body:
               nombre: ${desafio}
-        # ejecutar GET dato existente
-        - url: http://localhost:8989/desafios/test0007
+        # ejecutar GET 
+        - url: http://localhost:8989/desafios/Limpia
           method: GET
-        # ejecutar get dato no existente
-        - url: http://localhost:8989/desafios/Bike
+        # ejecutar get otra ruta
+        - url: http://localhost:8989/desafios/Reciclaje
           method: GET

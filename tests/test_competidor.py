@@ -1,6 +1,9 @@
 import unittest
+# agregamos la ruta donde estan los fuentes del proyecto
 import sys
 sys.path.append('challenge')
+
+# se agrega MagicMock para simular pruebas con independencia de la BD
 from unittest.mock import MagicMock
 from competidor import Competidor
 
@@ -26,43 +29,44 @@ class TestModel(unittest.TestCase):
             ciudad="Santiago" 
         )
 
-        # Create a sample id:
-        self.sample_id = '000000000000000000000000'
+        # crea un id simulando respuesta de BD
+        self.sample_id = '5dfeb37bd6910141030af17e'
   
-    def test_create_ok(self):
-        """ Test if a new competidor is inserted on list """
-        # Configure the mock for returning an id on insert, and None on get:
-        self.mock.insert.return_value = self.sample_id
+    # TEST de creación de objeto en BD
+    def test_insert(self):
+        # Indicamos al mock que devolver en un get
         self.mock.get.return_value = None
-
-        id = self.competidor.create(
+        # Indicamos al mock que devolver en un insert
+        self.mock.insert.return_value = self.sample_id    
+        # probando insert
+        id_insert_test = self.competidor.create(
             self.sample_competidor["nombre"], self.sample_competidor["fecha_ins"], 
             self.sample_competidor["edad"], self.sample_competidor["sexo"], 
             self.sample_competidor["pais"], self.sample_competidor["ciudad"]
         )
-
-        # Ensure that mock had been called with correct arguments:
+        # validando insert
         self.mock.insert.assert_called_with(self.sample_competidor)
+        # probando get
         self.mock.get.assert_called_with(key='nombre', value=self.sample_competidor['nombre'])
-        self.assertEqual(id, self.sample_id)
+        # chequeo de insetado vs resultado get
+        self.assertEqual(id_insert_test, self.sample_id)
 
-        
-    def test_search_by_name(self):
-        """ Test the search for existing and non-existing competidor by name """
-        # Existing competidor:
+    # TEST de busqueda de objetos
+    def test_metodos_search(self):
+        # Prepadando prueba, inicio de valores:
         self.sample_competidor['_id'] = self.sample_id
         self.mock.get.return_value = self.sample_competidor
-
-        res_found = self.competidor.search_by_name(self.sample_competidor["nombre"])
-        self.assertEqual(res_found, self.sample_competidor)
+        # Ejecucción de prueba: search_by_name
+        objeto_encontrado = self.competidor.search_by_name(self.sample_competidor["nombre"])
+        self.assertEqual(objeto_encontrado, self.sample_competidor)
         self.mock.get.assert_called_with(key='nombre', value=self.sample_competidor['nombre'])
 
-        # Non-existing competidor:
+        # Prueba de valor no encontrado
         self.mock.get.return_value = None        
         
-        res_not_found = self.competidor.search_by_name("Non-existing competidor")
-        self.assertEqual(res_not_found, None)
-        self.mock.get.assert_called_with(key='nombre', value="Non-existing competidor")
+        test_found = self.competidor.search_by_name("__ESTE_VALOR_NO_EXISTE__")
+        self.assertEqual(test_found, None)
+        self.mock.get.assert_called_with(key='nombre', value="__ESTE_VALOR_NO_EXISTE__")
 
 if __name__ == '__main__':
     unittest.main()

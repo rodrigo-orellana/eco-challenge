@@ -1,6 +1,9 @@
 import unittest
+# agregamos la ruta donde estan los fuentes del proyecto
 import sys
 sys.path.append('challenge')
+
+# se agrega MagicMock para simular pruebas con independencia de la BD
 from unittest.mock import MagicMock
 from desafio import Desafio
 
@@ -25,43 +28,42 @@ class TestModel(unittest.TestCase):
             ciudad="Santiago", 
         )
 
-        # Create a sample id:
-        self.sample_id = '000000000000000000000000'
-  
-    def test_create_ok(self):
-        """ Test if a new desafio is inserted on list """
-        # Configure the mock for returning an id on insert, and None on get:
-        self.mock.insert.return_value = self.sample_id
+        # crea un id simulando respuesta de BD
+        self.sample_id = '5dfeb37bd6910141030af17e'
+    # TEST de creación de objeto en BD
+    def test_insert(self):
+        # Indicamos al mock que devolver en un get
         self.mock.get.return_value = None
-
-        id = self.desafio.create(
+        # Indicamos al mock que devolver en un insert
+        self.mock.insert.return_value = self.sample_id
+        # probando insert
+        id_insert_test = self.desafio.create(
             self.sample_desafio["nombre"], self.sample_desafio["fecha_ini"], 
             self.sample_desafio["fecha_fin"], self.sample_desafio["pais"], 
             self.sample_desafio["ciudad"]
         )
 
-        # Ensure that mock had been called with correct arguments:
+        # validando insert
         self.mock.insert.assert_called_with(self.sample_desafio)
         self.mock.get.assert_called_with(key='nombre', value=self.sample_desafio['nombre'])
-        self.assertEqual(id, self.sample_id)
+        self.assertEqual(id_insert_test, self.sample_id)
 
-        
-    def test_search_by_name(self):
-        """ Test the search for existing and non-existing desafio by name """
-        # Existing desafio:
+    # TEST de busqueda de objetos
+    def test_metodos_search(self):
+        # Prepadando prueba, inicio de valores:
         self.sample_desafio['_id'] = self.sample_id
         self.mock.get.return_value = self.sample_desafio
-
-        res_found = self.desafio.search_by_name(self.sample_desafio["nombre"])
-        self.assertEqual(res_found, self.sample_desafio)
+        # Ejecucción de prueba: search_by_name
+        objeto_encontrado = self.desafio.search_by_name(self.sample_desafio["nombre"])
+        self.assertEqual(objeto_encontrado, self.sample_desafio)
         self.mock.get.assert_called_with(key='nombre', value=self.sample_desafio['nombre'])
 
-        # Non-existing desafio:
+        # Prueba de valor no encontrado
         self.mock.get.return_value = None        
         
-        res_not_found = self.desafio.search_by_name("Non-existing desafio")
-        self.assertEqual(res_not_found, None)
-        self.mock.get.assert_called_with(key='nombre', value="Non-existing desafio")
+        test_found = self.desafio.search_by_name("__ESTE_VALOR_NO_EXISTE__")
+        self.assertEqual(test_found, None)
+        self.mock.get.assert_called_with(key='nombre', value="__ESTE_VALOR_NO_EXISTE__")
 
 if __name__ == '__main__':
     unittest.main()
