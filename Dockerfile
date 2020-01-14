@@ -20,4 +20,5 @@ WORKDIR /opt/webapp
 EXPOSE ${PORT}
 
 # Ejecuta comando para levantar webapp
-CMD gunicorn --workers=5 --bind 0.0.0.0:${PORT} wsgi:app
+#CMD gunicorn --workers=5 --bind 0.0.0.0:${PORT} wsgi:app
+CMD python3 sanic_rest.py
