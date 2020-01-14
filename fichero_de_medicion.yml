@@ -6,10 +6,10 @@ execution:
         # Tiempo en el cual se mantendrá la carga
       hold-for: 20s
         # nombre del escenario
-      scenario: cc_hito_4
+      scenario: cc_hit0_4
 
 scenarios:
-    cc_hito_4:
+    cc_hit0_4:
         #entregamos archivo con datos de prueba para post
         data-sources:
         - data_medicion_post.csv
@@ -20,9 +20,16 @@ scenarios:
           - url: http://localhost:8989/desafios
         #  indicamos el metodo
             method: POST
-        #  cuerpo del post
+            # Indicamos que el body del request es json 
+            headers:
+              Content-Type: application/json
+            # cuerpo del post
             body:
               nombre: ${desafio}
+              fecha_ini: "2020-02-01"
+              fecha_fin: "2020-03-01"
+              pais: "Chile"
+              ciudad: "Santiago"
         # ejecutar GET 
         - url: http://localhost:8989/desafios/Limpia
           method: GET
