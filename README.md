@@ -19,43 +19,44 @@ Se opta por la herramienta recomendada en el curso: [Taurus](http://gettaurus.or
 
 ~~~  
 execution:
-  # usuarios simulados  
-- concurrency: 10
-  # Tiempo en que se crearán los 10 usuarios
-  ramp-up: 5s
-  # Tiempo en el cual se mantendrá la carga
-  hold-for: 20s
-  # nombre del escenario
-  scenario: cc_hit0_4
+    # usuarios simulados  
+    - concurrency: 10
+        # Tiempo en que se crearán los 10 usuarios
+      ramp-up: 5s
+        # Tiempo en el cual se mantendrá la carga
+      hold-for: 20s
+        # nombre del escenario
+      scenario: cc_hit0_4
 
 scenarios:
-  cc_hit0_4:
-    # tiempo maximo para conectar y recibir respuesta
-    timeout: 5s 
-    # para que no recupere todos los recursos incrustados de páginas HTML
-    retrieve-resources: false
-    # no guardar cache
-    store-cache: false
-    # no guardar cookies
-    store-cookie: false
-    # URL base de las pruebas
-    default-address: http://localhost:8989
-    # Request del test
-    requests:
-    # Ruta de la app
-    - /desafios
-    - url: '/desafios'
-      method: POST
-      body:
-        nombre: test0007
-    - url: '/desafios/test0007'
-      method: GET
-    - url: '/desafios/test0007'
-      method: DELETE
-      headers:
-        Content-Type: application/x-www-form-urlencoded
-      body:
-        nombre: test0007
+    cc_hit0_4:
+        #entregamos archivo con datos de prueba para post
+        data-sources:
+        - data_medicion_post.csv
+        requests:
+        # 1 post por hebra
+        - once:
+        #  Ruta de la app
+          - url: http://localhost:8989/desafios
+        #  indicamos el metodo
+            method: POST
+            # Indicamos que el body del request es json 
+            headers:
+              Content-Type: application/json
+            # cuerpo del post
+            body:
+              nombre: ${desafio}
+              fecha_ini: "2020-02-01"
+              fecha_fin: "2020-03-01"
+              pais: "Chile"
+              ciudad: "Santiago"
+        # ejecutar GET 
+        - url: http://localhost:8989/desafios/Limpia
+          method: GET
+        # ejecutar get otra ruta
+        - url: http://localhost:8989/desafios/Reciclaje
+          method: GET
+
 ~~~  
 
 **Estrategia**  
