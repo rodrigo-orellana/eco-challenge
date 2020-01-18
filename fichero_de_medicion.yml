@@ -25,6 +25,7 @@ scenarios:
               Content-Type: application/json
             # cuerpo del post
             body:
+              # ${desafio} toma valores desde el csv
               nombre: ${desafio}
               fecha_ini: "2020-02-01"
               fecha_fin: "2020-03-01"

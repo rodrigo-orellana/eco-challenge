@@ -14,7 +14,7 @@ logging.basicConfig(filename='app.log', filemode='a',
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.DEBUG,  datefmt='%d-%b-%y %H:%M:%S')
 
-# Si se trata de una prueba de travis debe de hacerlo en local
+#  Si se trata de una prueba de travis debe de hacerlo en local
 user = os.environ.get("USER_MBD")
 passw = os.environ.get("PASS_MBD")
 ambiente = os.environ.get("AMBIENTE")

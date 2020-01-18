@@ -11,7 +11,8 @@ ADD ./requirements.txt /tmp/requirements.txt
 RUN pip3 install -qr /tmp/requirements.txt
 
 # sube ficheros fuente
-ADD ./challenge opt/webapp/
+#ADD ./challenge opt/webapp/
+ADD ./src/desafios opt/webapp/
 
 # Indicamos el directorio de trabajo de la imagen
 WORKDIR /opt/webapp

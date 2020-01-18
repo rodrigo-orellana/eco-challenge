@@ -1,7 +1,8 @@
 import unittest
 # agregamos la ruta donde estan los fuentes del proyecto
 import sys
-sys.path.append('challenge')
+#sys.path.append('challenge')
+sys.path.append('src/competidores')
 
 # se agrega MagicMock para simular pruebas con independencia de la BD
 from unittest.mock import MagicMock
