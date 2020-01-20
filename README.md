@@ -10,7 +10,7 @@ La documentación del proyecto se encuentra en el siguiente link:
 * [Documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/indice.md)  
 
 ## Provisionamiento de máquinas virtuales  
-En una máquina virtual se desplegarón los microservicios desafios y competidor los cuales utilizan internamente en el servidor los puertos 8989 y 8988 respectivamente. por otro lado se habilitó un servicio gateway (proxy inverso) con NGINX el cual recibe peticiones desde internet por el puerto 80 y redirecciona al microservicio que corresponda la ejecucción segun su [configuración](https://github.com/rodrigo-orellana/eco-challenge/blob/src/gateway_nginx/nginx.conf)
+En una máquina virtual se desplegarón los microservicios desafios y competidor los cuales utilizan internamente en el servidor los puertos 8989 y 8988 respectivamente. por otro lado se habilitó un servicio gateway (proxy inverso) con NGINX el cual recibe peticiones desde internet por el puerto 80 y redirecciona al microservicio que corresponda la ejecucción segun su [configuración](https://github.com/rodrigo-orellana/eco-challenge/blob/master/src/gateway_nginx/nginx.conf)
 
 Se realiza la provisión de máquinas virtuales en la nube, utilizando Google Cloud Plataform. por motivos educacionales de decide implementar la siguiente estrategia utilizando tanto Vagrant como Ansible, así aprender ambos. Ademas se prueba instalando algunos software y librerías con shell script unix desde vagrant para mostrar dicha funcionalidad. Tambien se mostrará los comandos que ofrece gcloud en donde se pueden ejecutar lineas de comando remotas para administrar la MV.
 
