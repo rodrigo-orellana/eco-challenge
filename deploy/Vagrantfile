@@ -1,0 +1,31 @@
+Vagrant.configure("2") do |config|
+  # usamos RSync para sincronizar el directorio del proyecto en cada vagrant up o vagrant reload
+  # hacemos uso de esta funcionalidad para subir simplemente los fuentes
+  config.vm.synced_folder "~/eco-challenge/src", "/vagrant", type: "rsync"
+  # podriamos excluir algun directorio o fichero con la siguiente configuración:
+  # , rsync__exclude: ".git/"
+  # utilizaremos el box GCE Google Compute Engine.
+  config.vm.box = "gce"
+  config.vm.provision :shell, :path => "deploy/install_python.sh"
+  # opciones de configuracion propias de GCP
+  config.vm.provider :google do |google, override|
+    # Identificación del proyecto creado en GCP al que se le asociará la MV
+    google.google_project_id = "my-project-1576105871255"
+    # Datos del service account. no requeridos al utilizar relación de confianza ssh
+    # google.google_client_email = "admin-gcp@my-project-1576105871255.iam.gserviceaccount.com"
+    # Clave json de service account descargada de GCP
+    google.google_json_key_location = "/home/rockdrigo/Ejercicios_CC/provision/my-project-1576105871255-494ced92f000.json"
+    # Nonmbre de la instancia a crear
+    google.name = "mv-rodrigo22"
+    # zona de la instancia (datacenter).
+    google.zone = "us-central1-c"
+    # Tipo de maquina:n1-standard-4: 4 CPU, 15GB RAM
+    google.machine_type = "n1-standard-4"
+    # Imagen a utilizar para la creación de la MV
+    google.image = "ubuntu-1804-bionic-v20200108"	
+    # credenciales SSH: usuario SSH creado en pasos anteriores
+    override.ssh.username = "admin-gcp"
+    # credenciales SSH: ruta fichero clave privada asociada al usuario
+    override.ssh.private_key_path = "~/.ssh/admin-gcp"
+  end
+end

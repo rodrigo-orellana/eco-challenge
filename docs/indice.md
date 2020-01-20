@@ -29,6 +29,10 @@ Este proyecto implementa un makefile como herramienta builtool, para más inform
 ## Test 
 Para la automatización de los test se utiliza el framework de Python llamdo [Unittest](https://docs.python.org/3/library/unittest.html), para más información puede consultar la [documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/test.md)
 
+## Medición presatciones y single source of truth
+[documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/prestaciones.md)
+
+
 ## Virtualización sobre Docker
 El concepto de [Docker](https://www.docker.com/) nace de la intención de poder administrar mejor los recursos de hardware (capacidad de computo), al virtualizar se crean pequeños ordenadores virtuales en los que se  distrubuyen los recursos, ademas de aislar las aplicaciones de otras que estén en el mismo servidor en distintas máquinas virtuales. En el caso de Docker, permite crear ambientes vittuales simplificados de pequeño tamaño, los que luego al desplegarse asegura que las pruebas realizadas en local se comportarán identicamente en el servidor de destino, al poseer una configuración que es exactamente la misma localmente y en la nube.  
 

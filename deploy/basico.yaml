@@ -1,0 +1,32 @@
+---
+- hosts: all  # configuraciones a aplicar en todos los nodos del inventario
+  become: yes #  escalamiento de permisos de ejecucción root
+  tasks: # tareas a ejecutar
+    - name: Installs nginx web server 
+      # update_cache=true similar a apt-get update, which downloads the latest package lists from the Ubuntu repositories
+      apt: pkg=nginx state=present update_cache=true #invoca el comando apt, indicándole que el paquete nginx tiene que estar presente
+    - name: instala archivo conf de nginx y omite el resultado
+      # el archivo nginx.conf fue subido en el syncro de vagrand
+      shell: cp /vagrant/gateway_nginx/nginx.conf /etc/nginx/nginx.conf || /bin/true 
+    - name: habilita puerto 80 para nginx
+      shell: ufw allow 'Nginx HTTP'
+      notify:
+        - start nginx
+    - name: Instalación mongodb # paso 1 key repo mongodb
+      apt_key:
+        keyserver: hkp://keyserver.ubuntu.com:80
+        id: 9DA31620334BD75D9DCB49F368818C72E52529D4
+    - name: install mongodb #latest solo descarga actualizaciones del tipo bugfix related. 
+      apt: pkg=mongodb state=latest update_cache=yes
+      notify: # invoca al triger mongodb
+      - start mongodb
+    - name: Ejecuta aplicación web microservicio desafios 
+      shell: "start-stop-daemon --start --quiet --pidfile /var/run/test --exec /vagrant/start_desafios.sh"
+    - name: Ejecuta aplicación web microservicio competidor
+      shell: "start-stop-daemon --start --quiet --pidfile /var/run/test --exec /vagrant/start_competidor.sh"
+    
+  handlers:
+    - name: start nginx #inicia servicio nginx
+      service: name=nginx state=started
+    - name: start mongodb #inicia la bd
+      service: name=mongodb state=started
