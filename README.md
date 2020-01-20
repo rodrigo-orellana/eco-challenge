@@ -193,7 +193,7 @@ esto levanta el proceso como demonio
 
 Las shell que se llaman para iniciar el servicio son las siguientes:
 * [start_desafios.sh](https://github.com/rodrigo-orellana/eco-challenge/blob/master/src/start_desafios.sh)  
-* [start_competidor.sh](https://github.com/rodrigo-orellana/eco-challenge/blob/master/src/start_desafios.sh)  
+* [start_competidor.sh](https://github.com/rodrigo-orellana/eco-challenge/blob/master/src/start_competidor.sh)  
 Estas shell tienen el siguiente contenido:
 ~~~
 #!/bin/bash
@@ -324,3 +324,4 @@ Y la maquina creada en GCP
 buildtool: Makefile  
 Contenedor: https://github.com/rodrigo-orellana/eco-challenge/packages/66342  
 [Documentación](https://github.com/rodrigo-orellana/eco-challenge/blob/master/docs/indice.md)  
+Prestaciones: fichero_de_medicion.yml  [aquí](https://github.com/rodrigo-orellana/eco-challenge/blob/master/fichero_de_medicion.yml)  
